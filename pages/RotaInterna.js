@@ -40,15 +40,16 @@ export default function RotaInterna() {
               style={{
                 width: 28,
                 height: 28,
-                tintColor: focused ? '#e91e63' : 'gray'
+                tintColor: focused ? '#000' : 'gray'
               }}
             />
           );
         }
       })}
     >
-      <Tab.Screen name="TelaInicial" component={TelaInicial} />
+     
       <Tab.Screen name="TelaChat" component={TelaChat} />
+      <Tab.Screen name="TelaInicial" component={TelaInicial} />
       <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
     </Tab.Navigator>
   );

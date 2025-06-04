@@ -15,7 +15,7 @@ export default function TelaCadastro() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  const baseURL = 'http://10.136.23.84:3000';
+  const baseURL = 'http://10.136.23.89:3000';
 
   const navigation = useNavigation();
 

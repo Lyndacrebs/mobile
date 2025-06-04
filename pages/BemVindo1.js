@@ -5,9 +5,10 @@ import AppLoading from 'expo-app-loading';
 import { ChevronRight } from 'lucide-react-native'; // ou use outro ícone se preferir
 import { useNavigation } from '@react-navigation/native';
 
-const navigation = useNavigation();
 
 export default function BemVindo1() {
+  const navigation = useNavigation();
+  const slideIndex = 0;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   let [fontsLoaded] = useFonts({
@@ -49,7 +50,7 @@ export default function BemVindo1() {
         </Text>
 
         <Image
-          source={require('../assets/imagem-bemvindo.png')} // sua imagem customizada
+          source={require('../assets/bemVindo1.png')} // sua imagem customizada
           style={styles.image}
           resizeMode="contain"
         />
@@ -61,17 +62,27 @@ export default function BemVindo1() {
           <Text style={styles.skipButton}>PULAR</Text>
         </TouchableOpacity>
 
-        <View style={styles.pagination}>
-          {[0, 1, 2].map((index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                { backgroundColor: currentSlide === index ? '#6E6EFF' : '#E5E7EB' }
-              ]}
-            />
-          ))}
-        </View>
+      <View style={styles.pagination}>
+  {[0, 1, 2].map((index) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => {
+        if (index === 0) navigation.navigate('BemVindo1');
+        if (index === 1) navigation.navigate('BemVindo2');
+        if (index === 2) navigation.navigate('BemVindo3');
+      }}
+    >
+      <View
+        style={[
+          styles.dot,
+          {
+            backgroundColor: slideIndex === index ? '#6E6EFF' : '#E5E7EB'
+          }
+        ]}
+      />
+    </TouchableOpacity>
+  ))}
+</View>
 
         <TouchableOpacity onPress={nextSlide} style={styles.nextButton}>
           <ChevronRight size={24} color="#fff" />
@@ -94,31 +105,33 @@ const styles = StyleSheet.create({
     right: 24
   },
   logo: {
-    width: 40,
-    height: 40
+    width: 47,
+    height: 50
   },
   content: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 140
   },
   title: {
-    fontSize: 22,
+    fontSize: 28,
     fontFamily: 'Poppins_600SemiBold',
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#fff',
     marginBottom: 12
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Poppins_300Light',
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#CBCBFD',
     marginBottom: 32
   },
   image: {
-    width: 260,
-    height: 200
+    width: 516,
+    height: 524,
+    marginTop: 80
   },
   bottomNav: {
     flexDirection: 'row',
@@ -151,42 +164,3 @@ const styles = StyleSheet.create({
 });
 
 
-
-// export default function BemVindo1({ navigation }) {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.titulo}> Bem-vindo</Text>
-//       <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('BemVindo2')}>
-//         <Text style={styles.textoBotao}>Entrar</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#1e1e2e',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     padding: 20,
-//   },
-//   titulo: {
-//     fontSize: 24,
-//     color: '#ffffff',
-//     marginBottom: 40,
-//     textAlign: 'center',
-//   },
-//   botao: {
-//     backgroundColor: '#03dac5',
-//     paddingVertical: 15,
-//     paddingHorizontal: 30,
-//     borderRadius: 8,
-//     elevation: 5,
-//   },
-//   textoBotao: {
-//     color: '#000',
-//     fontWeight: 'bold',
-//     fontSize: 16,
-//   },
-// });
