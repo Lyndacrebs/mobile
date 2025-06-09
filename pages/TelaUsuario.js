@@ -75,9 +75,9 @@ export default function TelaUsuario() {
           </View>
 
           <View style={styles.legenda}>
-            <Text style={[styles.legendaTexto, { color: '#000' }]}>● Desenho Técnico 40%</Text>
-            <Text style={[styles.legendaTexto, { color: '#8A80FF' }]}>● Prototipagem 30%</Text>
-            <Text style={[styles.legendaTexto, { color: '#CBCBFD' }]}>● Nome do curso 20%</Text>
+            <Text style={[styles.legendaTexto, { color: '#B6B6B6' }]}>● Desenho Técnico 40%</Text>
+            <Text style={[styles.legendaTexto, { color: '#B6B6B6' }]}>● Prototipagem 30%</Text>
+            <Text style={[styles.legendaTexto, { color: '#B6B6B6' }]}>● Nome do curso 20%</Text>
             <Text style={[styles.legendaTexto, { color: '#B6B6B6' }]}>● Design de Equipamentos 10%</Text>
           </View>
         </View>
@@ -116,7 +116,7 @@ export default function TelaUsuario() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   CabecalhoContainer: {
     marginTop: 50,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   nome: {
     marginTop: 10,
     fontFamily: 'Poppins_600SemiBold',
-    fontSize: 16,
+    fontSize: 16
   },
   email: {
     fontSize: 14,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   EditarTexto: {
     color: '#fff',
     fontFamily: 'Poppins_600SemiBold',
-    fontSize: '12'
+    fontSize: 12
   },
   progressoContainer: {
     paddingHorizontal: 20,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   grafico: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   circle: {
     width: 120,
