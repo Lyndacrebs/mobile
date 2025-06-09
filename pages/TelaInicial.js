@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function TelaInicial() {
+export default function TelaChat() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Bem-vindo à Tela Inicial!</Text>
+      <Text style={styles.text}>Bem-vindo à Tela de Chat!</Text>
     </View>
   );
 }
