@@ -267,13 +267,13 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30
+    justifyContent: 'center',
+    marginBottom: 30,
   },
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 20,
-    marginRight: 20
+    marginRight: 20,
   },
   activeTab: {
     borderBottomWidth: 2,
