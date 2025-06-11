@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function TelaLogin() {
+export default function TelaPresencial() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Bem-vindo à Tela Login!</Text>
+      <Text style={styles.text}>Bem-vindo à Tela Presencial!</Text>
     </View>
   );
 }

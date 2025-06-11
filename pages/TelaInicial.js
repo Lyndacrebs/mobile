@@ -2,16 +2,28 @@ import React, { useState } from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TelaInicial() {
+  const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
   const [selectedTab, setSelectedTab] = useState('Online');
+
+const irParaOnline = () => {
+  navigation.navigate('TelaOnline');
+};
+
+const irParaPresencial = () => {
+  navigation.navigate('TelaPresencial');
+};
+
 
    let [fontsLoaded] = useFonts({
       Poppins_300Light,
       Poppins_400Regular,
       Poppins_600SemiBold
     });
+
 
   const cursosProgresso = [
     {
@@ -150,24 +162,32 @@ export default function TelaInicial() {
           />
         </View>
         {/* Tabs */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity
-            style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-            onPress={() => setSelectedTab('Online')}
-          >
-            <Text style={[styles.tabText, selectedTab === 'Online' && styles.activeTabText]}>
-              Online
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-            onPress={() => setSelectedTab('Presencial')}
-          >
-            <Text style={[styles.tabText, selectedTab === 'Presencial' && styles.activeTabText]}>
-              Presencial
-            </Text>
-          </TouchableOpacity>
-        </View>
+       <View style={styles.tabsContainer}>
+  <TouchableOpacity
+    style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
+    onPress={() => {
+      setSelectedTab('Online');
+      irParaOnline();
+    }}
+  >
+    <Text style={[styles.tabText, selectedTab === 'Online' && styles.activeTabText]}>
+      Online
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
+    onPress={() => {
+      setSelectedTab('Presencial');
+      irParaPresencial();
+    }}
+  >
+    <Text style={[styles.tabText, selectedTab === 'Presencial' && styles.activeTabText]}>
+      Presencial
+    </Text>
+  </TouchableOpacity>
+</View>
+
 
         {/* Continue Aprendendo */}
         <View style={styles.section}>
@@ -283,7 +303,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    
+    fontFamily: 'Poppins_400Regular',
     fontSize: 16,
     color: '#FFFFFF'
   },
@@ -302,12 +322,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#6E6EFF'
   },
   tabText: {
-    fontSize: 16,
-    color: '#6B7280'
+    fontSize: 12,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#000'
   },
   activeTabText: {
     color: '#6E6EFF',
-    fontWeight: '600'
+    fontSize: 12
   },
   section: {
     marginBottom: 30

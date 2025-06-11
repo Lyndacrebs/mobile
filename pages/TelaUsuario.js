@@ -12,7 +12,7 @@ export default function TelaUsuario() {
   });
 
  const Voltar = () => {
-    navigation.navigate('TelaChat');
+    navigation.navigate('TelaInicial');
     // aqui você pode usar navigation.navigate('Tela2') futuramente
   };
 

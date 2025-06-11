@@ -8,6 +8,8 @@ import BemVindo3 from './pages/BemVindo3';
 import TelaCadastro from './pages/TelaCadastro';
 import TelaLogin from './pages/TelaLogin';
 import RotaInterna from './pages/RotaInterna';
+import TelaOnline from './pages/TelaOnline';
+import TelaPresencial from './pages/TelaPresencial';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +21,9 @@ export default function Routes() {
         <Stack.Screen name="BemVindo3" component={BemVindo3} options={{ headerShown: false }}/>
          <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ headerShown: false }}/>
          <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ headerShown: false }}/>
-      <Stack.Screen name="RotaInterna" component={RotaInterna} options={{ headerShown: false }} />
+         <Stack.Screen name="RotaInterna" component={RotaInterna} options={{ headerShown: false }} />
+         <Stack.Screen name="TelaOnline" component={TelaOnline} options={{ headerShown: false }} />
+         <Stack.Screen name="TelaPresencial" component={TelaPresencial} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
