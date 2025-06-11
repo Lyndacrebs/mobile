@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 export default function TelaInicial() {
   const [searchText, setSearchText] = useState('');
   const [selectedTab, setSelectedTab] = useState('Online');
+
+   let [fontsLoaded] = useFonts({
+      Poppins_300Light,
+      Poppins_400Regular,
+      Poppins_600SemiBold
+    });
 
   const cursosProgresso = [
     {
@@ -249,6 +256,7 @@ const styles = StyleSheet.create({
     marginRight: 12
   },
   headerTitle: {
+    fontFamily: 'Poppins_600SemiBold',
     fontSize: 18,
     fontWeight: '600',
     color: '#111827'
@@ -275,6 +283,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    
     fontSize: 16,
     color: '#FFFFFF'
   },
@@ -304,7 +313,8 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   sectionTitle: {
-    fontSize: 20,
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 16,
     fontWeight: '700',
     color: '#111827',
     marginBottom: 20
@@ -340,6 +350,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   cursoTitulo: {
+    fontFamily: 'Poppins_600SemiBold',
     fontSize: 16,
     fontWeight: '600',
     color: '#111827',
