@@ -8,9 +8,11 @@ import TelaInicial from './TelaInicial';
 import TelaChat from './TelaChat';
 import TelaUsuario from './TelaUsuario';
 
+
 import iconChat from '../assets/chat.png';
 import iconHome from '../assets/home.png';
 import iconUser from '../assets/user.png';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -29,35 +31,19 @@ const scrollY = useRef(new Animated.Value(0)).current;
 </Animated.ScrollView>
 
   return (
-    <Tab.Navigator
+   <Tab.Navigator
   screenOptions={({ route }) => ({
     headerShown: false,
     tabBarShowLabel: false,
     tabBarStyle: {
       position: 'absolute',
-      bottom: 16,
-      left: 16,
-      right: 16,
-      height: 60,
+      bottom: 25,
+      left: 20,
+      right: 20,
       backgroundColor: 'transparent',
-      borderRadius: 40,
-      borderTopWidth: 0,
       elevation: 0,
-    },
-    tabBarBackground: () => (
-      <BlurView
-        tint="light"
-        intensity={60} // Aumente isso se quiser mais contraste
-        style={{
-          flex: 1,
-          borderRadius: 40,
-          overflow: 'hidden',
-        }}
-      />
-    ),
-    tabBarItemStyle: {
-      justifyContent: 'center',
-      alignItems: 'center',
+      borderRadius: 30,
+      height: 70,
     },
     tabBarIcon: ({ focused }) => {
       let icon;
@@ -65,23 +51,27 @@ const scrollY = useRef(new Animated.Value(0)).current;
       else if (route.name === 'TelaInicial') icon = iconHome;
       else if (route.name === 'TelaUsuario') icon = iconUser;
 
-      return (
+      return icon ? (
         <Image
           source={icon}
           style={{
-            width: 24,
-            height: 24,
-            tintColor: focused ? '#000' : '#B6B6B6',
+            width: 26,
+            height: 26,
+            tintColor: focused ? '#000' : '#B6B6B6'
           }}
         />
-      );
+      ) : null;
     }
   })}
 >
+  {/* Os 3 principais que aparecem na Tab */}
   <Tab.Screen name="TelaChat" component={TelaChat} />
   <Tab.Screen name="TelaInicial" component={TelaInicial} />
   <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
+
 </Tab.Navigator>
+
+
   );
 }
 

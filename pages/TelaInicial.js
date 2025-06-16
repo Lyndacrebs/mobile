@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function TelaInicial() {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const [selectedTab, setSelectedTab] = useState('Online');
+ const [selectedTab, setSelectedTab] = useState(null);
 
 const irParaOnline = () => {
   navigation.navigate('TelaOnline');
@@ -164,28 +164,35 @@ const irParaPresencial = () => {
         {/* Tabs */}
        <View style={styles.tabsContainer}>
   <TouchableOpacity
-    style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-    onPress={() => {
-      setSelectedTab('Online');
-      irParaOnline();
-    }}
-  >
-    <Text style={[styles.tabText, selectedTab === 'Online' && styles.activeTabText]}>
-      Online
-    </Text>
-  </TouchableOpacity>
+  style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
+  onPress={() => {
+    setSelectedTab('Online');
+    irParaOnline();
+  }}
+>
+  <Text style={[
+    styles.tabText,
+    selectedTab === 'Online' && styles.activeTabText
+  ]}>
+    Online
+  </Text>
+</TouchableOpacity>
 
-  <TouchableOpacity
-    style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-    onPress={() => {
-      setSelectedTab('Presencial');
-      irParaPresencial();
-    }}
-  >
-    <Text style={[styles.tabText, selectedTab === 'Presencial' && styles.activeTabText]}>
-      Presencial
-    </Text>
-  </TouchableOpacity>
+<TouchableOpacity
+  style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
+  onPress={() => {
+    setSelectedTab('Presencial');
+    irParaPresencial();
+  }}
+>
+  <Text style={[
+    styles.tabText,
+    selectedTab === 'Presencial' && styles.activeTabText
+  ]}>
+    Presencial
+  </Text>
+</TouchableOpacity>
+
 </View>
 
 
