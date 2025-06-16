@@ -8,16 +8,20 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
-  Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { useNavigation } from '@react-navigation/native';
-
+import {
+  useFonts,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+} from '@expo-google-fonts/poppins';
 
 export default function TelaOnline() {
- const navigation = useNavigation();
+  const navigation = useNavigation();
   const [selectedTab, setSelectedTab] = useState('Online');
+  const [searchText, setSearchText] = useState('');
 
   const irParaPresencial = () => {
     navigation.navigate('TelaPresencial');
@@ -28,10 +32,10 @@ export default function TelaOnline() {
   };
 
   let [fontsLoaded] = useFonts({
-          Poppins_300Light,
-          Poppins_400Regular,
-          Poppins_600SemiBold
-        });
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+  });
 
   const cursos = [
     {
@@ -42,81 +46,35 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      imagem: require('../assets/curso3.png'),
+      cor: '#E8EAF6',
       selected: true,
     },
-    {
-      id: 2,
-      titulo: 'Modelagem Paramétrica',
-      subtitulo: 'Período da realização:',
-      dataInicial: 'Inicial: 5. 5. 2025',
-      dataFinal: 'Final: 18. 12. 2025',
-      duracao: '22 horas',
-      tipo: 'Online',
-      cor: '#1F2937',
-    },
-    {
-      id: 3,
-      titulo: 'Ergonomia no Design de P...',
-      subtitulo: 'Período da realização:',
-      dataInicial: 'Inicial: 5. 5. 2025',
-      dataFinal: 'Final: 18. 12. 2025',
-      duracao: '22 horas',
-      tipo: 'Online',
-      cor: '#1E3A8A',
-    },
-    {
-      id: 4,
-      titulo: 'Materiais industriais e Su...',
-      subtitulo: 'Período da realização:',
-      dataInicial: 'Inicial: 5. 5. 2025',
-      dataFinal: 'Final: 18. 12. 2025',
-      duracao: '22 horas',
-      tipo: 'Online',
-      cor: '#10B981',
-    },
-    {
-      id: 5,
-      titulo: 'Desenho Técnico Mecânico',
-      subtitulo: 'Período da realização:',
-      dataInicial: 'Inicial: 5. 5. 2025',
-      dataFinal: 'Final: 18. 12. 2025',
-      duracao: '22 horas',
-      tipo: 'Online',
-      cor: '#F3F4F6',
-    },
-    {
-      id: 6,
-      titulo: 'Nome do curso',
-      subtitulo: 'Período da realização:',
-      dataInicial: 'Inicial: 5. 5. 2025',
-      dataFinal: 'Final: 18. 12. 2025',
-      duracao: '22 horas',
-      tipo: 'Online',
-      cor: '#F9FAFB',
-    },
+    // outros cursos...
   ];
 
   const CursoCard = ({ curso, isLeft }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[
-        styles.cursoCard, 
+        styles.cursoCard,
         { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
-        curso.selected && styles.selectedCard
+        curso.selected && styles.selectedCard,
       ]}
     >
-      <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
-        {/* Placeholder para imagem */}
-      </View>
-      
+      <View
+        style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}
+      />
       <View style={styles.cursoContent}>
         <View style={styles.cursoHeader}>
           <Ionicons name="desktop-outline" size={14} color="#6B7280" />
           <Text style={styles.cursoTipo}>{curso.tipo}</Text>
-          <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 12 }} />
+          <Ionicons
+            name="time-outline"
+            size={14}
+            color="#6B7280"
+            style={{ marginLeft: 12 }}
+          />
           <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
         </View>
-        
         <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
         <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
         <Text style={styles.cursoData}>{curso.dataInicial}</Text>
@@ -139,35 +97,53 @@ export default function TelaOnline() {
   };
 
   return (
-     <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      {/* Header com seta automática de voltar */}
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-          onPress={() => {
-            setSelectedTab('Online');
-            irParaOnline();
-          }}
-        >
-          <Text>Online</Text>
-        </TouchableOpacity>
+      <View style={styles.content}>
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <View style={styles.searchIconContainer}>
+            <Ionicons name="search" size={19} color="#6E6EFF" />
+          </View>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Pesquisar"
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholderTextColor="#FFFFFF"
+          />
+        </View>
 
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-          onPress={() => {
-            setSelectedTab('Presencial');
-            irParaPresencial();
-          }}
-        >
-          <Text>Presencial</Text>
-        </TouchableOpacity>
-      
-      
-        {/* Cursos Grid */}
-        <ScrollView 
-          style={styles.cursosContainer} 
+        {/* Tabs */}
+        <View style={styles.tabsContainer}>
+          <TouchableOpacity
+            style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
+            onPress={() => {
+              setSelectedTab('Online');
+              irParaOnline();
+            }}
+          >
+            <Text style={styles.tabText}>Online</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.tab,
+              selectedTab === 'Presencial' && styles.activeTab,
+            ]}
+            onPress={() => {
+              setSelectedTab('Presencial');
+              irParaPresencial();
+            }}
+          >
+            <Text style={styles.tabText}>Presencial</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Grid */}
+        <ScrollView
+          style={styles.cursosContainer}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
@@ -176,7 +152,7 @@ export default function TelaOnline() {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -193,11 +169,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6E6EFF',
     borderRadius: 25,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-     marginTop: 20,
-    marginBottom: 24,
+    paddingHorizontal: 12,
     height: 50,
+    marginBottom: 20,
   },
   searchIconContainer: {
     width: 34,
@@ -206,67 +180,59 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     color: '#FFFFFF',
   },
- tabsContainer: {
-  flexDirection: 'row',
-  justifyContent: 'center',
-  marginBottom: 30,
-  marginTop: 20, // Adicionado
-},
+  tabsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 20,
-    marginRight: 20,
+    marginHorizontal: 10,
   },
   activeTab: {
     borderBottomWidth: 2,
-    borderBottomColor: '#6E6EFF'
+    borderBottomColor: '#6E6EFF',
   },
   tabText: {
     fontSize: 12,
+    color: '#000',
     fontFamily: 'Poppins_600SemiBold',
-    color: '#000'
-  },
-  activeTabText: {
-    color: '#6E6EFF',
-    fontSize: 12
   },
   cursosContainer: {
     flex: 1,
-    marginBottom: 10,
   },
   scrollContent: {
     paddingBottom: 20,
   },
- cursoRow: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  marginBottom: 16,
-  paddingHorizontal: 8,
-},
+  cursoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
   cursoCard: {
-  flex: 1,
-  marginHorizontal: 4,
-  backgroundColor: '#FFFFFF',
-  borderRadius: 12,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.1,
-  shadowRadius: 3.84,
-  elevation: 5,
-  overflow: 'hidden',
-  minWidth: '48%',  // Adicionado
-  maxWidth: '48%',  // Adicionado
-},
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginHorizontal: 4,
+    minWidth: '48%',
+    maxWidth: '48%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   selectedCard: {
     borderWidth: 2,
-    borderColor: '#8B5CF6',
+    borderColor: '#6E6EFF',
   },
   cursoImageContainer: {
     height: 80,
@@ -279,7 +245,7 @@ const styles = StyleSheet.create({
   cursoHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   cursoTipo: {
     fontSize: 12,
@@ -296,7 +262,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#111827',
     marginBottom: 6,
-    lineHeight: 18,
   },
   cursoSubtitulo: {
     fontSize: 12,
@@ -307,17 +272,5 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#9CA3AF',
     lineHeight: 14,
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
-  },
-  navItem: {
-    padding: 10,
   },
 });
