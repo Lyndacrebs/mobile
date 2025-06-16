@@ -195,6 +195,13 @@ const irParaPresencial = () => {
 
 </View>
 
+<View style={styles.instrucaoContainer}>
+  <Text style={styles.instrucaoTitulo}>Modalidades de Curso</Text>
+  <Text style={styles.instrucaoTexto}>
+    Escolha como deseja aprender! Nossos cursos estão disponíveis nas modalidades online e presencial, para que você possa estudar no seu ritmo ou vivenciar a experiência em sala de aula. Selecione uma opção e confira os conteúdos disponíveis.
+  </Text>
+</View>
+
 
         {/* Continue Aprendendo */}
         <View style={styles.section}>
@@ -337,6 +344,28 @@ const styles = StyleSheet.create({
     color: '#6E6EFF',
     fontSize: 12
   },
+  instrucaoContainer: {
+  marginBottom: 20,
+  padding: 16,
+  backgroundColor: '#EEF2FF',
+  borderRadius: 12,
+},
+
+instrucaoTitulo: {
+  fontFamily: 'Poppins_600SemiBold',
+  fontSize: 16,
+  color: '#4F46E5',
+  marginBottom: 8,
+  textAlign: 'center',
+},
+
+instrucaoTexto: {
+  fontFamily: 'Poppins_400Regular',
+  fontSize: 14,
+  color: '#374151',
+  textAlign: 'center',
+},
+
   section: {
     marginBottom: 30
   },

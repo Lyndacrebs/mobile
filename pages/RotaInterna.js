@@ -4,7 +4,7 @@ import { BlurView } from 'expo-blur';
 import { View, Image, StyleSheet,  TouchableWithoutFeedback, Animated, ScrollView } from 'react-native';
 
 
-import TelaInicial from './TelaInicial';
+import StackCursos from './StackCursos'; 
 import TelaChat from './TelaChat';
 import TelaUsuario from './TelaUsuario';
 
@@ -48,7 +48,7 @@ const scrollY = useRef(new Animated.Value(0)).current;
     tabBarIcon: ({ focused }) => {
       let icon;
       if (route.name === 'TelaChat') icon = iconChat;
-      else if (route.name === 'TelaInicial') icon = iconHome;
+      else if (route.name === 'StackCursos') icon = iconHome;
       else if (route.name === 'TelaUsuario') icon = iconUser;
 
       return icon ? (
@@ -66,7 +66,7 @@ const scrollY = useRef(new Animated.Value(0)).current;
 >
   {/* Os 3 principais que aparecem na Tab */}
   <Tab.Screen name="TelaChat" component={TelaChat} />
-  <Tab.Screen name="TelaInicial" component={TelaInicial} />
+  <Tab.Screen name="StackCursos" component={StackCursos} />
   <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
 
 </Tab.Navigator>

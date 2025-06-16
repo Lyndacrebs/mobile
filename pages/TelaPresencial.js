@@ -12,9 +12,22 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 export default function TelaPresencial() {
+   const irParaPresencial = () => {
+      navigation.navigate('TelaPresencial');
+    };
+  
+    const irParaOnline = () => {
+      navigation.navigate('TelaOnline');
+    };
+  
+  
+   const navigation = useNavigation();
+  
   const [searchText, setSearchText] = useState('');
   const [selectedTab, setSelectedTab] = useState('Presencial');
 

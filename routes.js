@@ -22,8 +22,8 @@ export default function Routes() {
          <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ headerShown: false }}/>
          <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ headerShown: false }}/>
          <Stack.Screen name="RotaInterna" component={RotaInterna} options={{ headerShown: false }} />
-         <Stack.Screen name="TelaOnline" component={TelaOnline} options={{ headerShown: false }} />
-         <Stack.Screen name="TelaPresencial" component={TelaPresencial} options={{ headerShown: false }} />
+         <Stack.Screen name="TelaOnline" component={TelaOnline} />
+         <Stack.Screen name="TelaPresencial" component={TelaPresencial} />
     </Stack.Navigator>
   );
 }
