@@ -17,14 +17,12 @@ import { useNavigation } from '@react-navigation/native';
 
 
 export default function TelaPresencial() {
-   const irParaPresencial = () => {
-      navigation.navigate('TelaPresencial');
-    };
-  
-    const irParaOnline = () => {
-      navigation.navigate('TelaOnline');
-    };
-  
+
+  const handlePress = (tab) => {
+    setSelectedTab(tab);
+    navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
+  };
+
   
    const navigation = useNavigation();
   
@@ -58,7 +56,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-      imagem: '💻',
+       imagem: require('../assets/curso4.png'),
       cor: '#DBEAFE',
     },
     {
@@ -69,7 +67,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-      imagem: '🔧',
+       imagem: require('../assets/curso5.png'),
       cor: '#FEF2F2',
     },
     {
@@ -80,7 +78,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-      imagem: '👤',
+      imagem: require('../assets/curso6.png'),
       cor: '#F0FDF4',
     },
     {
@@ -91,7 +89,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-      imagem: '🖨️',
+     imagem: require('../assets/curso2.png'),
       cor: '#F8FAFC',
     },
     {
@@ -102,7 +100,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-      imagem: '📐',
+      imagem: require('../assets/curso8.png'),
       cor: '#1F2937',
     },
   ];
@@ -168,38 +166,38 @@ export default function TelaPresencial() {
           />
         </View>
 
-        {/* Tabs */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-          onPress={() => {
-            setSelectedTab('Online');
-            irParaOnline();
-          }}
-        >
-          <Text style={[
-            styles.tabText,
-            selectedTab === 'Online' && styles.activeTabText
-          ]}>
-            Online
-          </Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-          onPress={() => {
-            setSelectedTab('Presencial');
-            irParaPresencial();
-          }}
-        >
-          <Text style={[
-            styles.tabText,
-            selectedTab === 'Presencial' && styles.activeTabText
-          ]}>
-            Presencial
-          </Text>
-        </TouchableOpacity>
-        </View>
+             {/* Tabs */}
+        <View style={styles.botoesContainer}>
+              <TouchableOpacity
+                 onPress={() => handlePress('Online')}
+                 style={[
+                   styles.botao,
+                   selectedTab === 'Online' && styles.botaoAtivo
+                 ]}
+               >
+                 <Text style={[
+                   styles.textoBotao,
+                   selectedTab === 'Online' && styles.textoBotaoAtivo
+                 ]}>
+                   Online
+                 </Text>
+               </TouchableOpacity>
+       
+              <TouchableOpacity
+                 onPress={() => handlePress('Presencial')}
+                 style={[
+                   styles.botao,
+                   selectedTab === 'Presencial' && styles.botaoAtivo
+                 ]}
+               >
+                 <Text style={[
+                   styles.textoBotao,
+                   selectedTab === 'Presencial' && styles.textoBotaoAtivo
+                 ]}>
+                   Presencial
+                 </Text>
+               </TouchableOpacity>
+             </View>
 
         {/* Cursos Grid */}
         <ScrollView 
@@ -210,7 +208,7 @@ export default function TelaPresencial() {
           {renderCursos()}
         </ScrollView>
       </View>
-       <View style={{ height: 100 }} />
+       {/* <View style={{ height: 100 }} /> */}
     </SafeAreaView>
   );
 };
@@ -249,28 +247,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
-  tabsContainer: {
+ botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginTop: 16,
+    marginBottom: 20
   },
-  tab: {
+  botao: {
+    borderWidth: 1,
+    borderColor: '#4848D8',
+    borderRadius: 20,
     paddingVertical: 8,
-    paddingHorizontal: 20,
-    marginRight: 20,
+    paddingHorizontal: 24,
+    marginHorizontal: 8,
   },
-  activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#6E6EFF'
+  botaoAtivo: {
+    backgroundColor: '#4848D8',
   },
-  tabText: {
-    fontSize: 12,
-    fontFamily: 'Poppins_600SemiBold',
-    color: '#000'
+  textoBotao: {
+    color: '#4848D8',
+    fontWeight: '600',
   },
-  activeTabText: {
-    color: '#6E6EFF',
-    fontSize: 12
+  textoBotaoAtivo: {
+    color: '#FFFFFF',
   },
   cursosContainer: {
     flex: 1,

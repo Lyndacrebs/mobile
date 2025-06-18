@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -24,13 +25,12 @@ export default function TelaOnline() {
   const [selectedTab, setSelectedTab] = useState('Online');
   const [searchText, setSearchText] = useState('');
 
-  const irParaPresencial = () => {
-    navigation.navigate('TelaPresencial');
+ 
+  const handlePress = (tab) => {
+    setSelectedTab(tab);
+    navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
   };
 
-  const irParaOnline = () => {
-    navigation.navigate('TelaOnline');
-  };
 
   let [fontsLoaded] = useFonts({
     Poppins_300Light,
@@ -47,7 +47,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#DBEAFE',
+      imagem: require('../assets/curso9.png'),
       selected: true,
     },
    {
@@ -58,7 +58,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#1F2937',
+       imagem: require('../assets/curso10.png'),
     },
     {
       id: 3,
@@ -68,7 +68,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#1E3A8A',
+       imagem: require('../assets/curso6.png'),
     },
     {
       id: 4,
@@ -78,7 +78,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#10B981',
+      imagem: require('../assets/curso11.png'),
     },
     {
       id: 5,
@@ -88,7 +88,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#F3F4F6',
+      imagem: require('../assets/curso1.png'),
     },
     {
       id: 6,
@@ -98,7 +98,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#F9FAFB',
+     imagem: require('../assets/curso12.png'),
     },
   ];
 
@@ -110,9 +110,10 @@ export default function TelaOnline() {
         curso.selected && styles.selectedCard,
       ]}
     >
-      <View
-        style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}
-      />
+        <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
+           <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
+         </View>
+         
       <View style={styles.cursoContent}>
         <View style={styles.cursoHeader}>
           <Ionicons name="desktop-outline" size={14} color="#6B7280" />
@@ -168,38 +169,37 @@ export default function TelaOnline() {
         </View>
 
          {/* Tabs */}
-                <View style={styles.tabsContainer}>
-                  <TouchableOpacity
-                  style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-                  onPress={() => {
-                    setSelectedTab('Online');
-                    irParaOnline();
-                  }}
-                >
-                  <Text style={[
-                    styles.tabText,
-                    selectedTab === 'Online' && styles.activeTabText
-                  ]}>
-                    Online
-                  </Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity
-                  style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-                  onPress={() => {
-                    setSelectedTab('Presencial');
-                    irParaPresencial();
-                  }}
-                >
-                  <Text style={[
-                    styles.tabText,
-                    selectedTab === 'Presencial' && styles.activeTabText
-                  ]}>
-                    Presencial
-                  </Text>
-                </TouchableOpacity>
-                </View>
-        
+ <View style={styles.botoesContainer}>
+       <TouchableOpacity
+          onPress={() => handlePress('Online')}
+          style={[
+            styles.botao,
+            selectedTab === 'Online' && styles.botaoAtivo
+          ]}
+        >
+          <Text style={[
+            styles.textoBotao,
+            selectedTab === 'Online' && styles.textoBotaoAtivo
+          ]}>
+            Online
+          </Text>
+        </TouchableOpacity>
+
+       <TouchableOpacity
+          onPress={() => handlePress('Presencial')}
+          style={[
+            styles.botao,
+            selectedTab === 'Presencial' && styles.botaoAtivo
+          ]}
+        >
+          <Text style={[
+            styles.textoBotao,
+            selectedTab === 'Presencial' && styles.textoBotaoAtivo
+          ]}>
+            Presencial
+          </Text>
+        </TouchableOpacity>
+      </View>
 
         {/* Grid */}
         <ScrollView
@@ -250,28 +250,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
-  tabsContainer: {
+  botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 20
   },
-  tab: {
+  botao: {
+    borderWidth: 1,
+    borderColor: '#4848D8',
+    borderRadius: 20,
     paddingVertical: 8,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
+    paddingHorizontal: 24,
+    marginHorizontal: 8,
   },
-  activeTabText: {
-    color: '#6E6EFF',
-    fontSize: 12
+  botaoAtivo: {
+    backgroundColor: '#4848D8',
   },
-  tabText: {
-    fontSize: 12,
-    color: '#000',
-    fontFamily: 'Poppins_600SemiBold',
+  textoBotao: {
+    color: '#4848D8',
+    fontWeight: '600',
   },
-   activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#6E6EFF'
+  textoBotaoAtivo: {
+    color: '#FFFFFF',
   },
   cursosContainer: {
     flex: 1,

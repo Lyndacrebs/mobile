@@ -2,10 +2,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Platform } from 'react-native';
 
 import StackCursos from './StackCursos';
-import TelaChat    from './TelaChat';
+import TelaChat from './TelaChat';
 import TelaUsuario from './TelaUsuario';
 
 import iconChat from '../assets/chat.png';
@@ -21,32 +21,40 @@ export default function RotaInterna() {
         headerShown: false,
         tabBarShowLabel: false,
 
-        // estilo geral da TabBar
         tabBarStyle: {
           position: 'absolute',
           bottom: 12,
-          left:   12,
-          right:  12,
-          height: 60,
+          marginHorizontal: 20,
+          height: 65,
           borderRadius: 30,
           overflow: 'hidden',
           borderTopWidth: 0,
-          elevation: 5,
+          backgroundColor: 'transparent', // Blur + cor translúcida vão cuidar do fundo
+          elevation: Platform.OS === 'android' ? 8 : 0,
+          shadowColor: Platform.OS === 'ios' ? '#000' : 'transparent',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
         },
 
-        // fundo com blur + leve esbranquiçado
         tabBarBackground: () => (
           <BlurView
             tint="light"
-            intensity={50}
+            intensity={60}
             style={StyleSheet.absoluteFill}
-          />
+          >
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: 'rgba(240, 240, 255, 0.6)', // Tom lilás claro com transparência
+              }}
+            />
+          </BlurView>
         ),
 
-        // ícone centralizado e troca de cor
         tabBarIcon: ({ focused }) => {
           let icon;
-          if (route.name === 'TelaChat')    icon = iconChat;
+          if (route.name === 'TelaChat') icon = iconChat;
           if (route.name === 'StackCursos') icon = iconHome;
           if (route.name === 'TelaUsuario') icon = iconUser;
 
@@ -57,15 +65,16 @@ export default function RotaInterna() {
                 style={{
                   width: 24,
                   height: 24,
-                  tintColor: focused ? '#000' : '#B6B6B6'
+                  tintColor: focused ? '#000' : '#B6B6B6',
                 }}
+                resizeMode="contain"
               />
             </View>
           );
-        }
+        },
       })}
     >
-      <Tab.Screen name="TelaChat"    component={TelaChat} />
+      <Tab.Screen name="TelaChat" component={TelaChat} />
       <Tab.Screen name="StackCursos" component={StackCursos} />
       <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
     </Tab.Navigator>
@@ -76,6 +85,6 @@ const styles = StyleSheet.create({
   iconWrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
