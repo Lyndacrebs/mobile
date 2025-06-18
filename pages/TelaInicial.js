@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
-import { useNavigation } from '@react-navigation/native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useNavigation, useFocusEffect } from '@react-navigation/native'; 
 
 export default function TelaInicial() {
+  const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
  const [selectedTab, setSelectedTab] = useState(null);
+
+// Sempre que a TelaInicial for focada de novo, resetar o tab
+useFocusEffect(
+  useCallback(() => {
+    setSelectedTab(null);
+  }, [])
+);
 
 const irParaOnline = () => {
   navigation.navigate('TelaOnline');
@@ -25,32 +34,32 @@ const irParaPresencial = () => {
     });
 
 
-  const cursosProgresso = [
+  const cursosDataLimite = [
     {
       id: 1,
       titulo: 'Desenho Técnico Mecânico',
-      progresso: '12/10 lições',
+      DataLimite: 'Data limite 18.12',
       imagem: require('../assets/cursoIcon1.png'),
       cor: '#E8F4FD',
     },
     {
       id: 2,
       titulo: 'Prototipagem e impressão...',
-      progresso: '2/3 dias',
+      DataLimite: 'Data limite 18.12',
       imagem: require('../assets/cursoIcon2.png'),
       cor: '#F3E8FF',
     },
     {
       id: 3,
       titulo: 'Materiais industriais e sust...',
-      progresso: '8/20 lições',
+      DataLimite: 'Data limite 18.12',
       imagem: require('../assets/cursoIcon3.png'),
       cor: '#FFF7ED',
     },
     {
       id: 4,
       titulo: 'Modelagem paramétrica',
-      progresso: '1/10 lições',
+      DataLimite: 'Data limite 18.12',
       imagem: require('../assets/cursoIcon4.png'),
       cor: '#F0FDF4',
     },
@@ -77,8 +86,8 @@ const irParaPresencial = () => {
     },
   ];
 
-  const CursoProgressoItem = ({ curso }) => (
-    <TouchableOpacity style={styles.cursoProgressoItem}>
+  const CursoDataLimiteItem = ({ curso }) => (
+    <TouchableOpacity style={styles.cursoDataLimiteItem}>
       <View style={[styles.iconContainer, { backgroundColor: curso.cor }]}>
   <Image
     source={curso.imagem}
@@ -88,7 +97,7 @@ const irParaPresencial = () => {
 </View>
       <View style={styles.cursoInfo}>
         <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
-        <Text style={styles.cursoProgresso}>{curso.progresso}</Text>
+        <Text style={styles.cursoDataLimite}>{curso.DataLimite}</Text>
       </View>
       <TouchableOpacity style={styles.playButton}>
         <Ionicons name="play-circle-outline" size={24} color="#7C3AED" />
@@ -126,7 +135,11 @@ const irParaPresencial = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+  style={styles.content}
+  showsVerticalScrollIndicator={false}
+  contentContainerStyle={{ paddingBottom: tabBarHeight + 40 }}  // 40 é só um espaçamento extra
+>
         <View style={styles.Botaousuario}>
         <Image
           source={require('../assets/foto_perfil.png')}
@@ -161,53 +174,57 @@ const irParaPresencial = () => {
             placeholderTextColor="#FFFFFF"
           />
         </View>
-        {/* Tabs */}
-       <View style={styles.tabsContainer}>
-  <TouchableOpacity
-  style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-  onPress={() => {
-    setSelectedTab('Online');
-    irParaOnline();
-  }}
->
-  <Text style={[
-    styles.tabText,
-    selectedTab === 'Online' && styles.activeTabText
-  ]}>
-    Online
-  </Text>
-</TouchableOpacity>
 
-<TouchableOpacity
-  style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
-  onPress={() => {
-    setSelectedTab('Presencial');
-    irParaPresencial();
-  }}
->
-  <Text style={[
-    styles.tabText,
-    selectedTab === 'Presencial' && styles.activeTabText
-  ]}>
-    Presencial
-  </Text>
-</TouchableOpacity>
-
-</View>
-
-<View style={styles.instrucaoContainer}>
-  <Text style={styles.instrucaoTitulo}>Modalidades de Curso</Text>
-  <Text style={styles.instrucaoTexto}>
+<View style={styles.modalidadeContainer}>
+  <Text style={styles.modalidadeTitulo}>Modalidades de Curso</Text>
+  <Text style={styles.modalidadeTexto}>
     Escolha como deseja aprender! Nossos cursos estão disponíveis nas modalidades online e presencial, para que você possa estudar no seu ritmo ou vivenciar a experiência em sala de aula. Selecione uma opção e confira os conteúdos disponíveis.
   </Text>
+
+  <View style={styles.botoesContainer}>
+    <TouchableOpacity
+      style={[
+        styles.botaoOpcao,
+        selectedTab === 'Online' && styles.botaoAtivo
+      ]}
+      onPress={() => {
+        setSelectedTab('Online');
+        navigation.navigate('TelaOnline');
+      }}
+    >
+      <Text style={[
+        styles.textoBotao,
+        selectedTab === 'Online' && styles.textoBotaoAtivo
+      ]}>
+        Online
+      </Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      style={[
+        styles.botaoOpcao,
+        selectedTab === 'Presencial' && styles.botaoAtivo
+      ]}
+      onPress={() => {
+        setSelectedTab('Presencial');
+        navigation.navigate('TelaPresencial');
+      }}
+    >
+      <Text style={[
+        styles.textoBotao,
+        selectedTab === 'Presencial' && styles.textoBotaoAtivo
+      ]}>
+        Presencial
+      </Text>
+    </TouchableOpacity>
+  </View>
 </View>
 
-
-        {/* Continue Aprendendo */}
+        {/* Comece a Aprender */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Continue Aprendendo</Text>
-          {cursosProgresso.map((curso) => (
-            <CursoProgressoItem key={curso.id} curso={curso} />
+          <Text style={styles.sectionTitle}>Comece a aprender</Text>
+          {cursosDataLimite.map((curso) => (
+            <CursoDataLimiteItem key={curso.id} curso={curso} />
           ))}
         </View>
 
@@ -321,49 +338,53 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF'
   },
-  tabsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  tab: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    marginRight: 20,
-  },
-  activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#6E6EFF'
-  },
-  tabText: {
-    fontSize: 12,
-    fontFamily: 'Poppins_600SemiBold',
-    color: '#000'
-  },
-  activeTabText: {
-    color: '#6E6EFF',
-    fontSize: 12
-  },
-  instrucaoContainer: {
-  marginBottom: 20,
+ botoesContainer: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  marginTop: 16,
+},
+
+botaoOpcao: {
+  borderWidth: 1,
+  borderColor: '#4848D8',
+  borderRadius: 20,
+  paddingVertical: 8,
+  paddingHorizontal: 24,
+  marginHorizontal: 8,
+},
+
+textoBotao: {
+  color: '#4848D8',
+  fontWeight: '600',
+},
+
+botaoAtivo: {
+  backgroundColor: '#4848D8',
+},
+textoBotaoAtivo: {
+  color: '#FFFFFF'
+},
+ 
+ modalidadeContainer: {
+  backgroundColor: '#F0EDFF', // tom lilás claro
+  borderRadius: 16,
   padding: 16,
-  backgroundColor: '#EEF2FF',
-  borderRadius: 12,
+  marginTop: 30,
 },
 
-instrucaoTitulo: {
-  fontFamily: 'Poppins_600SemiBold',
+modalidadeTitulo: {
   fontSize: 16,
-  color: '#4F46E5',
-  marginBottom: 8,
+  fontWeight: 'bold',
+  color: '#4848D8', // azul/lilás
   textAlign: 'center',
+  marginBottom: 10,
 },
 
-instrucaoTexto: {
-  fontFamily: 'Poppins_400Regular',
+modalidadeTexto: {
   fontSize: 14,
-  color: '#374151',
+  color: '#444',
   textAlign: 'center',
+  lineHeight: 22,
 },
 
   section: {
@@ -376,7 +397,7 @@ instrucaoTexto: {
     color: '#111827',
     marginBottom: 20
   },
-  cursoProgressoItem: {
+  cursoDataLimiteItem: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
@@ -413,7 +434,7 @@ instrucaoTexto: {
     color: '#111827',
     marginBottom: 4
   },
-  cursoProgresso: {
+  cursoDataLimite: {
     fontSize: 14,
     color: '#6B7280'
   },
@@ -428,6 +449,7 @@ instrucaoTexto: {
 },
 continuarTitulo: {
   color: '#FFFFFF',
+  fontFamily: 'Poppins_600SemiBold',
   fontSize: 16,
   fontWeight: '600',
   marginBottom: 16,

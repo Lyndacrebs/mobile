@@ -1,83 +1,81 @@
-import React, { useRef } from 'react';
+// RotaInterna.js
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
-import { View, Image, StyleSheet,  TouchableWithoutFeedback, Animated, ScrollView } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 
-
-import StackCursos from './StackCursos'; 
-import TelaChat from './TelaChat';
+import StackCursos from './StackCursos';
+import TelaChat    from './TelaChat';
 import TelaUsuario from './TelaUsuario';
-
 
 import iconChat from '../assets/chat.png';
 import iconHome from '../assets/home.png';
 import iconUser from '../assets/user.png';
 
-
 const Tab = createBottomTabNavigator();
 
 export default function RotaInterna() {
-
-const scrollY = useRef(new Animated.Value(0)).current;
-
-<Animated.ScrollView
-  onScroll={Animated.event(
-    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-    { useNativeDriver: true }
-  )}
-  scrollEventThrottle={16}
->
-  {/* Conteúdo da tela */}
-</Animated.ScrollView>
-
   return (
-   <Tab.Navigator
-  screenOptions={({ route }) => ({
-    headerShown: false,
-    tabBarShowLabel: false,
-    tabBarStyle: {
-      position: 'absolute',
-      bottom: 25,
-      left: 20,
-      right: 20,
-      backgroundColor: 'transparent',
-      elevation: 0,
-      borderRadius: 30,
-      height: 70,
-    },
-    tabBarIcon: ({ focused }) => {
-      let icon;
-      if (route.name === 'TelaChat') icon = iconChat;
-      else if (route.name === 'StackCursos') icon = iconHome;
-      else if (route.name === 'TelaUsuario') icon = iconUser;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
 
-      return icon ? (
-        <Image
-          source={icon}
-          style={{
-            width: 26,
-            height: 26,
-            tintColor: focused ? '#000' : '#B6B6B6'
-          }}
-        />
-      ) : null;
-    }
-  })}
->
-  {/* Os 3 principais que aparecem na Tab */}
-  <Tab.Screen name="TelaChat" component={TelaChat} />
-  <Tab.Screen name="StackCursos" component={StackCursos} />
-  <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
+        // estilo geral da TabBar
+        tabBarStyle: {
+          position: 'absolute',
+          bottom: 12,
+          left:   12,
+          right:  12,
+          height: 60,
+          borderRadius: 30,
+          overflow: 'hidden',
+          borderTopWidth: 0,
+          elevation: 5,
+        },
 
-</Tab.Navigator>
+        // fundo com blur + leve esbranquiçado
+        tabBarBackground: () => (
+          <BlurView
+            tint="light"
+            intensity={50}
+            style={StyleSheet.absoluteFill}
+          />
+        ),
 
+        // ícone centralizado e troca de cor
+        tabBarIcon: ({ focused }) => {
+          let icon;
+          if (route.name === 'TelaChat')    icon = iconChat;
+          if (route.name === 'StackCursos') icon = iconHome;
+          if (route.name === 'TelaUsuario') icon = iconUser;
 
+          return (
+            <View style={styles.iconWrapper}>
+              <Image
+                source={icon}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? '#000' : '#B6B6B6'
+                }}
+              />
+            </View>
+          );
+        }
+      })}
+    >
+      <Tab.Screen name="TelaChat"    component={TelaChat} />
+      <Tab.Screen name="StackCursos" component={StackCursos} />
+      <Tab.Screen name="TelaUsuario" component={TelaUsuario} />
+    </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
   iconWrapper: {
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-  },
+    alignItems: 'center'
+  }
 });

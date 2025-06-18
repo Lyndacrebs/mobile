@@ -108,32 +108,33 @@ export default function TelaPresencial() {
   ];
 
   const CursoCard = ({ curso, isLeft }) => (
-    <TouchableOpacity 
-      style={[
-        styles.cursoCard, 
-        { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
-        curso.selected && styles.selectedCard
-      ]}
-    >
-      <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
-        <Text style={styles.cursoEmoji}>{curso.imagem}</Text>
+  <TouchableOpacity 
+    style={[
+      styles.cursoCard, 
+      { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
+      curso.selected && styles.selectedCard
+    ]}
+  >
+    <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
+      <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
+    </View>
+    
+    <View style={styles.cursoContent}>
+      <View style={styles.cursoHeader}>
+        <Ionicons name="location-outline" size={14} color="#6B7280" />
+        <Text style={styles.cursoTipo}>{curso.tipo}</Text>
+        <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 8 }} />
+        <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
       </View>
       
-      <View style={styles.cursoContent}>
-        <View style={styles.cursoHeader}>
-          <Ionicons name="location-outline" size={14} color="#6B7280" />
-          <Text style={styles.cursoTipo}>{curso.tipo}</Text>
-          <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 8 }} />
-          <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
-        </View>
-        
-        <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
-        <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
-        <Text style={styles.cursoData}>{curso.dataInicial}</Text>
-        <Text style={styles.cursoData}>{curso.dataFinal}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+      <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
+      <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
+      <Text style={styles.cursoData}>{curso.dataInicial}</Text>
+      <Text style={styles.cursoData}>{curso.dataFinal}</Text>
+    </View>
+  </TouchableOpacity>
+);
+
 
   const renderCursos = () => {
     const rows = [];
@@ -209,6 +210,7 @@ export default function TelaPresencial() {
           {renderCursos()}
         </ScrollView>
       </View>
+       <View style={{ height: 100 }} />
     </SafeAreaView>
   );
 };
@@ -228,11 +230,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6E6EFF',
     borderRadius: 25,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    marginBottom: 24,
-    marginTop: 20,
+    paddingHorizontal: 12,
     height: 50,
+    marginTop: 20,
+    marginBottom: 20,
   },
   searchIconContainer: {
     width: 34,
@@ -241,13 +242,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
-    marginTop: -2,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   tabsContainer: {
     flexDirection: 'row',

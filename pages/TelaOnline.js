@@ -18,6 +18,7 @@ import {
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 
+
 export default function TelaOnline() {
   const navigation = useNavigation();
   const [selectedTab, setSelectedTab] = useState('Online');
@@ -38,7 +39,7 @@ export default function TelaOnline() {
   });
 
   const cursos = [
-    {
+     {
       id: 1,
       titulo: 'Desenho Assistido por Co...',
       subtitulo: 'Período da realização:',
@@ -46,10 +47,59 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-      cor: '#E8EAF6',
+      cor: '#DBEAFE',
       selected: true,
     },
-    // outros cursos...
+   {
+      id: 2,
+      titulo: 'Modelagem Paramétrica',
+      subtitulo: 'Período da realização:',
+      dataInicial: 'Inicial: 5. 5. 2025',
+      dataFinal: 'Final: 18. 12. 2025',
+      duracao: '22 horas',
+      tipo: 'Online',
+      cor: '#1F2937',
+    },
+    {
+      id: 3,
+      titulo: 'Ergonomia no Design de P...',
+      subtitulo: 'Período da realização:',
+      dataInicial: 'Inicial: 5. 5. 2025',
+      dataFinal: 'Final: 18. 12. 2025',
+      duracao: '22 horas',
+      tipo: 'Online',
+      cor: '#1E3A8A',
+    },
+    {
+      id: 4,
+      titulo: 'Materiais industriais e Su...',
+      subtitulo: 'Período da realização:',
+      dataInicial: 'Inicial: 5. 5. 2025',
+      dataFinal: 'Final: 18. 12. 2025',
+      duracao: '22 horas',
+      tipo: 'Online',
+      cor: '#10B981',
+    },
+    {
+      id: 5,
+      titulo: 'Desenho Técnico Mecânico',
+      subtitulo: 'Período da realização:',
+      dataInicial: 'Inicial: 5. 5. 2025',
+      dataFinal: 'Final: 18. 12. 2025',
+      duracao: '22 horas',
+      tipo: 'Online',
+      cor: '#F3F4F6',
+    },
+    {
+      id: 6,
+      titulo: 'Nome do curso',
+      subtitulo: 'Período da realização:',
+      dataInicial: 'Inicial: 5. 5. 2025',
+      dataFinal: 'Final: 18. 12. 2025',
+      duracao: '22 horas',
+      tipo: 'Online',
+      cor: '#F9FAFB',
+    },
   ];
 
   const CursoCard = ({ curso, isLeft }) => (
@@ -100,6 +150,8 @@ export default function TelaOnline() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
+      
+
       <View style={styles.content}>
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -115,31 +167,39 @@ export default function TelaOnline() {
           />
         </View>
 
-        {/* Tabs */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity
-            style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
-            onPress={() => {
-              setSelectedTab('Online');
-              irParaOnline();
-            }}
-          >
-            <Text style={styles.tabText}>Online</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.tab,
-              selectedTab === 'Presencial' && styles.activeTab,
-            ]}
-            onPress={() => {
-              setSelectedTab('Presencial');
-              irParaPresencial();
-            }}
-          >
-            <Text style={styles.tabText}>Presencial</Text>
-          </TouchableOpacity>
-        </View>
+         {/* Tabs */}
+                <View style={styles.tabsContainer}>
+                  <TouchableOpacity
+                  style={[styles.tab, selectedTab === 'Online' && styles.activeTab]}
+                  onPress={() => {
+                    setSelectedTab('Online');
+                    irParaOnline();
+                  }}
+                >
+                  <Text style={[
+                    styles.tabText,
+                    selectedTab === 'Online' && styles.activeTabText
+                  ]}>
+                    Online
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={[styles.tab, selectedTab === 'Presencial' && styles.activeTab]}
+                  onPress={() => {
+                    setSelectedTab('Presencial');
+                    irParaPresencial();
+                  }}
+                >
+                  <Text style={[
+                    styles.tabText,
+                    selectedTab === 'Presencial' && styles.activeTabText
+                  ]}>
+                    Presencial
+                  </Text>
+                </TouchableOpacity>
+                </View>
+        
 
         {/* Grid */}
         <ScrollView
@@ -150,6 +210,8 @@ export default function TelaOnline() {
           {renderCursos()}
         </ScrollView>
       </View>
+    <View style={{ height: 100 }} />
+
     </SafeAreaView>
   );
 }
@@ -171,6 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 12,
     height: 50,
+    marginTop: 20,
     marginBottom: 20,
   },
   searchIconContainer: {
@@ -197,14 +260,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginHorizontal: 10,
   },
-  activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#6E6EFF',
+  activeTabText: {
+    color: '#6E6EFF',
+    fontSize: 12
   },
   tabText: {
     fontSize: 12,
     color: '#000',
     fontFamily: 'Poppins_600SemiBold',
+  },
+   activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#6E6EFF'
   },
   cursosContainer: {
     flex: 1,
@@ -214,28 +281,28 @@ const styles = StyleSheet.create({
   },
   cursoRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 16,
   },
   cursoCard: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    marginHorizontal: 4,
-    minWidth: '48%',
-    maxWidth: '48%',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
+    overflow: 'hidden',
   },
   selectedCard: {
     borderWidth: 2,
-    borderColor: '#6E6EFF',
+    borderColor: '#4848D8',
   },
   cursoImageContainer: {
-    height: 80,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
