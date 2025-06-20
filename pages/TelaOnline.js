@@ -141,7 +141,7 @@ export default function TelaOnline() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.content}>
@@ -197,17 +197,17 @@ export default function TelaOnline() {
         </View>
 
         {/* Grid */}
-        <ScrollView
+        <View
           style={styles.cursosContainer}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {renderCursos()}
-        </ScrollView>
+        </View>
       </View>
 
       <View style={{ height: 100 }} />
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -9,90 +9,55 @@ export default function TelaInicial() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
- const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedDataLimiteId, setSelectedDataLimiteId] = useState(null);
 
-// Sempre que a TelaInicial for focada de novo, resetar o tab
-useFocusEffect(
-  useCallback(() => {
-    setSelectedTab(null);
-  }, [])
-);
-
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedTab(null);
+    }, [])
+  );
 
   const handlePress = (tab) => {
     setSelectedTab(tab);
     navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
   };
 
+  const handleCardPress = (id) => {
+    setSelectedCourseId(id);
+  };
 
-   let [fontsLoaded] = useFonts({
-      Poppins_300Light,
-      Poppins_400Regular,
-      Poppins_600SemiBold
-    });
+  const handleDataLimitePress = (id) => {
+    setSelectedDataLimiteId(id);
+  };
 
+  let [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
 
   const cursosDataLimite = [
-    {
-      id: 1,
-      titulo: 'Desenho Técnico Mecânico',
-      DataLimite: 'Data limite 18.12',
-      imagem: require('../assets/cursoIcon1.png'),
-      cor: '#E8F4FD',
-    },
-    {
-      id: 2,
-      titulo: 'Prototipagem e impressão...',
-      DataLimite: 'Data limite 18.12',
-      imagem: require('../assets/cursoIcon2.png'),
-      cor: '#F3E8FF',
-    },
-    {
-      id: 3,
-      titulo: 'Materiais industriais e sust...',
-      DataLimite: 'Data limite 18.12',
-      imagem: require('../assets/cursoIcon3.png'),
-      cor: '#FFF7ED',
-    },
-    {
-      id: 4,
-      titulo: 'Modelagem paramétrica',
-      DataLimite: 'Data limite 18.12',
-      imagem: require('../assets/cursoIcon4.png'),
-      cor: '#F0FDF4',
-    },
+    { id: 1, titulo: 'Desenho Técnico Mecânico', DataLimite: 'Data limite 18.12', imagem: require('../assets/cursoIcon1.png'), cor: '#E8F4FD' },
+    { id: 2, titulo: 'Prototipagem e impressão...', DataLimite: 'Data limite 18.12', imagem: require('../assets/cursoIcon2.png'), cor: '#F3E8FF' },
+    { id: 3, titulo: 'Materiais industriais e sust...', DataLimite: 'Data limite 18.12', imagem: require('../assets/cursoIcon3.png'), cor: '#FFF7ED' },
+    { id: 4, titulo: 'Modelagem paramétrica', DataLimite: 'Data limite 18.12', imagem: require('../assets/cursoIcon4.png'), cor: '#F0FDF4' }
   ];
 
   const cursosAndamento = [
-    {
-      id: 1,
-      titulo: 'Desenho Técnico Mecânico',
-      subtitulo: 'Período da realização:',
-      data: 'Inicial: 5. 5. 2025\nFinal: 18. 12. 2025',
-      duracao: '24 horas',
-      tipo: 'Online',
-      imagem: require('../assets/curso1.png'), // placeholder
-    },
-    {
-      id: 2,
-      titulo: 'Prototipagem e Impre...',
-      subtitulo: 'Período da realização:',
-      data: 'Inicial: 5. 5. 2025\nFinal: 18. 12. 2025',
-      duracao: '22 hor',
-      tipo: 'Presencial',
-      imagem: require('../assets/curso2.png'), // placeholder
-    },
+    { id: 1, titulo: 'Desenho Técnico Mecânico', subtitulo: 'Período da realização:', data: 'Inicial: 5. 5. 2025\nFinal: 18. 12. 2025', duracao: '24 horas', tipo: 'Online', imagem: require('../assets/curso1.png') },
+    { id: 2, titulo: 'Prototipagem e Impre...', subtitulo: 'Período da realização:', data: 'Inicial: 5. 5. 2025\nFinal: 18. 12. 2025', duracao: '22 horas', tipo: 'Presencial', imagem: require('../assets/curso2.png') },
   ];
 
   const CursoDataLimiteItem = ({ curso }) => (
-    <TouchableOpacity style={styles.cursoDataLimiteItem}>
-      <View style={[styles.iconContainer, { backgroundColor: curso.cor }]}>
-  <Image
-    source={curso.imagem}
-    style={styles.iconImage}
-    resizeMode="contain"
-  />
-</View>
+    <TouchableOpacity
+      onPress={() => handleDataLimitePress(curso.id)}
+      style={[styles.cursoDataLimiteItem, selectedDataLimiteId === curso.id && styles.selectedCard]}
+    >
+      <View style={[styles.iconContainer, { backgroundColor: curso.cor }]}> 
+        <Image source={curso.imagem} style={styles.iconImage} resizeMode="contain" />
+      </View>
       <View style={styles.cursoInfo}>
         <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
         <Text style={styles.cursoDataLimite}>{curso.DataLimite}</Text>
@@ -103,31 +68,6 @@ useFocusEffect(
     </TouchableOpacity>
   );
 
-  const CursoDisponivelItem = ({ curso }) => (
-    <View style={styles.cursoDisponivelItem}>
-      <View style={styles.cursoImageContainer}>
-        <View style={styles.placeholderImage}>
-          <Ionicons name="image-outline" size={40} color="#9CA3AF" />
-        </View>
-      </View>
-      <View style={styles.cursoDetalhes}>
-        <View style={styles.cursoHeader}>
-          <Ionicons name="globe-outline" size={16} color="#6B7280" />
-          <Text style={styles.cursoTipo}>{curso.tipo}</Text>
-          <Ionicons name="time-outline" size={16} color="#6B7280" />
-          <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
-        </View>
-        <Text style={styles.cursoTituloDisponivel}>{curso.titulo}</Text>
-        <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
-        <Text style={styles.cursoData}>{curso.data}</Text>
-      </View>
-    </View>
-  );
-
-  const Perfil = () => {
-    navigation.navigate('TelaUsuario');
-    // aqui você pode usar navigation.navigate('Tela2') futuramente
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -222,22 +162,35 @@ useFocusEffect(
         </View>
 
         {/* Continuar os seus cursos */}
-       <View style={styles.continuarContainer}>
+  <View style={styles.continuarContainer}>
   <Text style={styles.continuarTitulo}>Continuar os seus cursos</Text>
   <View style={styles.continuarCursosGrid}>
     {cursosAndamento.map((curso) => (
-      <View key={curso.id} style={styles.continuarCursoCard}>
-        <Image  source={curso.imagem} style={styles.continuarImagem} />
+      <TouchableOpacity
+        key={curso.id}
+        style={[
+          styles.continuarCursoCard,
+          selectedCourseId === curso.id && styles.selectedCard
+        ]}
+        onPress={() => handleCardPress(curso.id)}
+        activeOpacity={0.8}
+      >
+        <Image source={curso.imagem} style={styles.continuarImagem} />
+
         <View style={styles.continuarInfo}>
           <View style={styles.continuarTipoDuracao}>
             <Ionicons name="laptop-outline" size={16} color="#9CA3AF" />
             <Text style={styles.tipoTexto}>| {curso.tipo}</Text>
-            <Ionicons name="time-outline" size={16} color="#000" style={{ marginLeft: 10 }} />
+          </View>
+
+          <View style={styles.continuarTipoDuracao}>
+            <Ionicons name="time-outline" size={16} color="#000" />
             <Text style={styles.tempoTexto}>{curso.duracao}</Text>
           </View>
+
           <Text style={styles.continuarTituloCurso}>{curso.titulo}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     ))}
   </View>
 </View>
@@ -432,67 +385,67 @@ modalidadeTexto: {
     padding: 5
   },
   continuarContainer: {
-  backgroundColor: '#6E6EFF',
-  borderRadius: 12,
-  padding: 16,
-  marginBottom: 30,
-},
-continuarTitulo: {
-  color: '#FFFFFF',
-  fontFamily: 'Poppins_600SemiBold',
-  fontSize: 16,
-  fontWeight: '600',
-  marginBottom: 16,
-},
-continuarCursosGrid: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-},
-
-continuarCursoCard: {
-  width: '48%',
-  backgroundColor: '#FFFFFF',
-  borderRadius: 12,
-  overflow: 'hidden',
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.1,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
-
-continuarImagem: {
-  width: '100%',
-  height: 90,
-  borderTopLeftRadius: 12,
-  borderTopRightRadius: 12,
-},
-
-continuarInfo: {
-  padding: 10,
-},
-
-continuarTipoDuracao: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: 4,
-},
-
-tipoTexto: {
-  fontSize: 12,
-  color: '#9CA3AF',
-  marginLeft: 4,
-},
-
-tempoTexto: {
-  fontSize: 12,
-  color: '#000',
-  marginLeft: 4,
-},
-
-continuarTituloCurso: {
-  fontSize: 14,
-  fontWeight: '600',
-  color: '#111827',
-},
+    backgroundColor: '#6E6EFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 30,
+  },
+  continuarTitulo: {
+    color: '#FFFFFF',
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  continuarCursosGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  continuarCursoCard: {
+    width: '48%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    paddingBottom: 10,
+  },
+  continuarImagem: {
+    width: '100%',
+    height: 90,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  continuarInfo: {
+    padding: 10,
+    alignItems: 'center',
+  },
+  continuarTipoDuracao: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  tipoTexto: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginLeft: 4,
+  },
+  tempoTexto: {
+    fontSize: 12,
+    color: '#000',
+    marginLeft: 4,
+  },
+  continuarTituloCurso: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#111827',
+    textAlign: 'center',
+  },
+  selectedCard: {
+    borderWidth: 3,
+    borderColor: '#4848D8',
+  },
 });

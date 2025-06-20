@@ -143,7 +143,7 @@ export default function TelaPresencial() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.content}>
@@ -199,15 +199,17 @@ export default function TelaPresencial() {
         </View>
 
         {/* Cursos Grid */}
-        <ScrollView
+        <View
           style={styles.cursosContainer}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {renderCursos()}
-        </ScrollView>
+        </View>
       </View>
-    </SafeAreaView>
+
+      <View style={{ height: 100 }} />
+    </ScrollView>
   );
 }
 
