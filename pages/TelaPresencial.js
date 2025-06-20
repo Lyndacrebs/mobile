@@ -14,27 +14,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { useNavigation } from '@react-navigation/native';
 
-
-
 export default function TelaPresencial() {
+  const navigation = useNavigation();
+  const [searchText, setSearchText] = useState('');
+  const [selectedTab, setSelectedTab] = useState('Presencial');
+  const [selectedId, setSelectedId] = useState(null);  // <<< Novo estado
 
   const handlePress = (tab) => {
     setSelectedTab(tab);
     navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
   };
 
-  
-   const navigation = useNavigation();
-  
-  const [searchText, setSearchText] = useState('');
-  const [selectedTab, setSelectedTab] = useState('Presencial');
+  let [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
 
-   let [fontsLoaded] = useFonts({
-        Poppins_300Light,
-        Poppins_400Regular,
-        Poppins_600SemiBold
-      });
-  
   const cursos = [
     {
       id: 1,
@@ -46,7 +42,6 @@ export default function TelaPresencial() {
       tipo: 'Presencial',
       imagem: require('../assets/curso3.png'),
       cor: '#F3F4F6',
-      selected: true,
     },
     {
       id: 2,
@@ -56,7 +51,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-       imagem: require('../assets/curso4.png'),
+      imagem: require('../assets/curso4.png'),
       cor: '#DBEAFE',
     },
     {
@@ -67,7 +62,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-       imagem: require('../assets/curso5.png'),
+      imagem: require('../assets/curso5.png'),
       cor: '#FEF2F2',
     },
     {
@@ -89,7 +84,7 @@ export default function TelaPresencial() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Presencial',
-     imagem: require('../assets/curso2.png'),
+      imagem: require('../assets/curso2.png'),
       cor: '#F8FAFC',
     },
     {
@@ -106,33 +101,33 @@ export default function TelaPresencial() {
   ];
 
   const CursoCard = ({ curso, isLeft }) => (
-  <TouchableOpacity 
-    style={[
-      styles.cursoCard, 
-      { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
-      curso.selected && styles.selectedCard
-    ]}
-  >
-    <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
-      <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
-    </View>
-    
-    <View style={styles.cursoContent}>
-      <View style={styles.cursoHeader}>
-        <Ionicons name="location-outline" size={14} color="#6B7280" />
-        <Text style={styles.cursoTipo}>{curso.tipo}</Text>
-        <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 8 }} />
-        <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
+    <TouchableOpacity
+      style={[
+        styles.cursoCard,
+        { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
+        selectedId === curso.id && styles.selectedCard,  // <<< Borda azul apenas se for o selecionado
+      ]}
+      onPress={() => setSelectedId(curso.id)}  // <<< Muda o selecionado ao clicar
+    >
+      <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
+        <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
       </View>
-      
-      <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
-      <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
-      <Text style={styles.cursoData}>{curso.dataInicial}</Text>
-      <Text style={styles.cursoData}>{curso.dataFinal}</Text>
-    </View>
-  </TouchableOpacity>
-);
 
+      <View style={styles.cursoContent}>
+        <View style={styles.cursoHeader}>
+          <Ionicons name="location-outline" size={14} color="#6B7280" />
+          <Text style={styles.cursoTipo}>{curso.tipo}</Text>
+          <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 8 }} />
+          <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
+        </View>
+
+        <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
+        <Text style={styles.cursoSubtitulo}>{curso.subtitulo}</Text>
+        <Text style={styles.cursoData}>{curso.dataInicial}</Text>
+        <Text style={styles.cursoData}>{curso.dataFinal}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   const renderCursos = () => {
     const rows = [];
@@ -150,7 +145,7 @@ export default function TelaPresencial() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
+
       <View style={styles.content}>
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -166,52 +161,55 @@ export default function TelaPresencial() {
           />
         </View>
 
-             {/* Tabs */}
+        {/* Tabs */}
         <View style={styles.botoesContainer}>
-              <TouchableOpacity
-                 onPress={() => handlePress('Online')}
-                 style={[
-                   styles.botao,
-                   selectedTab === 'Online' && styles.botaoAtivo
-                 ]}
-               >
-                 <Text style={[
-                   styles.textoBotao,
-                   selectedTab === 'Online' && styles.textoBotaoAtivo
-                 ]}>
-                   Online
-                 </Text>
-               </TouchableOpacity>
-       
-              <TouchableOpacity
-                 onPress={() => handlePress('Presencial')}
-                 style={[
-                   styles.botao,
-                   selectedTab === 'Presencial' && styles.botaoAtivo
-                 ]}
-               >
-                 <Text style={[
-                   styles.textoBotao,
-                   selectedTab === 'Presencial' && styles.textoBotaoAtivo
-                 ]}>
-                   Presencial
-                 </Text>
-               </TouchableOpacity>
-             </View>
+          <TouchableOpacity
+            onPress={() => handlePress('Online')}
+            style={[
+              styles.botao,
+              selectedTab === 'Online' && styles.botaoAtivo,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textoBotao,
+                selectedTab === 'Online' && styles.textoBotaoAtivo,
+              ]}
+            >
+              Online
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => handlePress('Presencial')}
+            style={[
+              styles.botao,
+              selectedTab === 'Presencial' && styles.botaoAtivo,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textoBotao,
+                selectedTab === 'Presencial' && styles.textoBotaoAtivo,
+              ]}
+            >
+              Presencial
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Cursos Grid */}
-        <ScrollView 
-          style={styles.cursosContainer} 
+        <ScrollView
+          style={styles.cursosContainer}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {renderCursos()}
         </ScrollView>
       </View>
-       {/* <View style={{ height: 100 }} /> */}
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -247,11 +245,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
- botoesContainer: {
+  botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 16,
-    marginBottom: 20
+    marginBottom: 20,
   },
   botao: {
     borderWidth: 1,
@@ -286,10 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
@@ -304,8 +299,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cursoEmoji: {
-    fontSize: 40,
+  cursoImagem: {
+    width: '80%',
+    height: '80%',
   },
   cursoContent: {
     padding: 12,
@@ -317,31 +313,27 @@ const styles = StyleSheet.create({
   },
   cursoTipo: {
     fontSize: 12,
-    Poppins_600SemiBold,
     color: '#6B7280',
     marginLeft: 4,
   },
   cursoDuracao: {
     fontSize: 12,
-    Poppins_600SemiBold,
     color: '#6B7280',
     marginLeft: 4,
   },
   cursoTitulo: {
     fontSize: 16,
-    Poppins_600SemiBold,
     color: '#000',
     marginBottom: 6,
+    fontWeight: '600',
   },
   cursoSubtitulo: {
     fontSize: 12,
-    Poppins_300Light,
     color: '#000',
     marginBottom: 4,
   },
   cursoData: {
     fontSize: 12,
     color: '#000',
-    Poppins_400Regular
   },
 });

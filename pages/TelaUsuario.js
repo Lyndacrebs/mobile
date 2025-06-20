@@ -11,10 +11,10 @@ export default function TelaUsuario() {
     Poppins_600SemiBold
   });
 
- const Voltar = () => {
-    navigation.navigate('TelaInicial');
-    // aqui você pode usar navigation.navigate('Tela2') futuramente
-  };
+const Voltar = () => {
+  navigation.navigate('StackCursos', { screen: 'TelaInicial' });
+};
+
 
 
   return (

@@ -8,7 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
-   Image,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -19,18 +19,16 @@ import {
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 
-
 export default function TelaOnline() {
   const navigation = useNavigation();
   const [selectedTab, setSelectedTab] = useState('Online');
   const [searchText, setSearchText] = useState('');
+  const [selectedId, setSelectedId] = useState(null);  // <<< Novo estado
 
- 
   const handlePress = (tab) => {
     setSelectedTab(tab);
     navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
   };
-
 
   let [fontsLoaded] = useFonts({
     Poppins_300Light,
@@ -39,7 +37,7 @@ export default function TelaOnline() {
   });
 
   const cursos = [
-     {
+    {
       id: 1,
       titulo: 'Desenho Assistido por Co...',
       subtitulo: 'Período da realização:',
@@ -48,9 +46,8 @@ export default function TelaOnline() {
       duracao: '22 horas',
       tipo: 'Online',
       imagem: require('../assets/curso9.png'),
-      selected: true,
     },
-   {
+    {
       id: 2,
       titulo: 'Modelagem Paramétrica',
       subtitulo: 'Período da realização:',
@@ -58,7 +55,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-       imagem: require('../assets/curso10.png'),
+      imagem: require('../assets/curso10.png'),
     },
     {
       id: 3,
@@ -68,7 +65,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-       imagem: require('../assets/curso6.png'),
+      imagem: require('../assets/curso6.png'),
     },
     {
       id: 4,
@@ -98,7 +95,7 @@ export default function TelaOnline() {
       dataFinal: 'Final: 18. 12. 2025',
       duracao: '22 horas',
       tipo: 'Online',
-     imagem: require('../assets/curso12.png'),
+      imagem: require('../assets/curso12.png'),
     },
   ];
 
@@ -107,23 +104,19 @@ export default function TelaOnline() {
       style={[
         styles.cursoCard,
         { marginRight: isLeft ? 8 : 0, marginLeft: isLeft ? 0 : 8 },
-        curso.selected && styles.selectedCard,
+        selectedId === curso.id && styles.selectedCard, // <<< Borda só se for o selecionado
       ]}
+      onPress={() => setSelectedId(curso.id)}  // <<< Define o selecionado ao clicar
     >
-        <View style={[styles.cursoImageContainer, { backgroundColor: curso.cor }]}>
-           <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
-         </View>
-         
+      <View style={styles.cursoImageContainer}>
+        <Image source={curso.imagem} style={styles.cursoImagem} resizeMode="contain" />
+      </View>
+
       <View style={styles.cursoContent}>
         <View style={styles.cursoHeader}>
           <Ionicons name="desktop-outline" size={14} color="#6B7280" />
           <Text style={styles.cursoTipo}>{curso.tipo}</Text>
-          <Ionicons
-            name="time-outline"
-            size={14}
-            color="#6B7280"
-            style={{ marginLeft: 12 }}
-          />
+          <Ionicons name="time-outline" size={14} color="#6B7280" style={{ marginLeft: 12 }} />
           <Text style={styles.cursoDuracao}>{curso.duracao}</Text>
         </View>
         <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
@@ -151,8 +144,6 @@ export default function TelaOnline() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      
-
       <View style={styles.content}>
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -168,38 +159,42 @@ export default function TelaOnline() {
           />
         </View>
 
-         {/* Tabs */}
- <View style={styles.botoesContainer}>
-       <TouchableOpacity
-          onPress={() => handlePress('Online')}
-          style={[
-            styles.botao,
-            selectedTab === 'Online' && styles.botaoAtivo
-          ]}
-        >
-          <Text style={[
-            styles.textoBotao,
-            selectedTab === 'Online' && styles.textoBotaoAtivo
-          ]}>
-            Online
-          </Text>
-        </TouchableOpacity>
+        {/* Tabs */}
+        <View style={styles.botoesContainer}>
+          <TouchableOpacity
+            onPress={() => handlePress('Online')}
+            style={[
+              styles.botao,
+              selectedTab === 'Online' && styles.botaoAtivo,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textoBotao,
+                selectedTab === 'Online' && styles.textoBotaoAtivo,
+              ]}
+            >
+              Online
+            </Text>
+          </TouchableOpacity>
 
-       <TouchableOpacity
-          onPress={() => handlePress('Presencial')}
-          style={[
-            styles.botao,
-            selectedTab === 'Presencial' && styles.botaoAtivo
-          ]}
-        >
-          <Text style={[
-            styles.textoBotao,
-            selectedTab === 'Presencial' && styles.textoBotaoAtivo
-          ]}>
-            Presencial
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={() => handlePress('Presencial')}
+            style={[
+              styles.botao,
+              selectedTab === 'Presencial' && styles.botaoAtivo,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textoBotao,
+                selectedTab === 'Presencial' && styles.textoBotaoAtivo,
+              ]}
+            >
+              Presencial
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Grid */}
         <ScrollView
@@ -210,8 +205,8 @@ export default function TelaOnline() {
           {renderCursos()}
         </ScrollView>
       </View>
-    <View style={{ height: 100 }} />
 
+      <View style={{ height: 100 }} />
     </SafeAreaView>
   );
 }
@@ -253,7 +248,7 @@ const styles = StyleSheet.create({
   botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   botao: {
     borderWidth: 1,
@@ -288,10 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
@@ -305,6 +297,10 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  cursoImagem: {
+    width: '80%',
+    height: '80%',
   },
   cursoContent: {
     padding: 12,
