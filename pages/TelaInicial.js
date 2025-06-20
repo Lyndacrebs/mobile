@@ -18,13 +18,11 @@ useFocusEffect(
   }, [])
 );
 
-const irParaOnline = () => {
-  navigation.navigate('TelaOnline');
-};
 
-const irParaPresencial = () => {
-  navigation.navigate('TelaPresencial');
-};
+  const handlePress = (tab) => {
+    setSelectedTab(tab);
+    navigation.navigate(tab === 'Online' ? 'TelaOnline' : 'TelaPresencial');
+  };
 
 
    let [fontsLoaded] = useFonts({
@@ -182,42 +180,37 @@ const irParaPresencial = () => {
   </Text>
 
   <View style={styles.botoesContainer}>
-    <TouchableOpacity
-      style={[
-        styles.botaoOpcao,
-        selectedTab === 'Online' && styles.botaoAtivo
-      ]}
-      onPress={() => {
-        setSelectedTab('Online');
-        navigation.navigate('TelaOnline');
-      }}
-    >
-      <Text style={[
-        styles.textoBotao,
-        selectedTab === 'Online' && styles.textoBotaoAtivo
-      ]}>
-        Online
-      </Text>
-    </TouchableOpacity>
+       <TouchableOpacity
+          onPress={() => handlePress('Online')}
+          style={[
+            styles.botao,
+            selectedTab === 'Online' && styles.botaoAtivo
+          ]}
+        >
+          <Text style={[
+            styles.textoBotao,
+            selectedTab === 'Online' && styles.textoBotaoAtivo
+          ]}>
+            Online
+          </Text>
+        </TouchableOpacity>
 
-    <TouchableOpacity
-      style={[
-        styles.botaoOpcao,
-        selectedTab === 'Presencial' && styles.botaoAtivo
-      ]}
-      onPress={() => {
-        setSelectedTab('Presencial');
-        navigation.navigate('TelaPresencial');
-      }}
-    >
-      <Text style={[
-        styles.textoBotao,
-        selectedTab === 'Presencial' && styles.textoBotaoAtivo
-      ]}>
-        Presencial
-      </Text>
-    </TouchableOpacity>
-  </View>
+       <TouchableOpacity
+          onPress={() => handlePress('Presencial')}
+          style={[
+            styles.botao,
+            selectedTab === 'Presencial' && styles.botaoAtivo
+          ]}
+        >
+          <Text style={[
+            styles.textoBotao,
+            selectedTab === 'Presencial' && styles.textoBotaoAtivo
+          ]}>
+            Presencial
+          </Text>
+        </TouchableOpacity>
+      </View>
+
 </View>
 
         {/* Comece a Aprender */}
@@ -338,38 +331,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF'
   },
- botoesContainer: {
-  flexDirection: 'row',
-  justifyContent: 'center',
-  marginTop: 16,
-},
-
-botaoOpcao: {
-  borderWidth: 1,
-  borderColor: '#4848D8',
-  borderRadius: 20,
-  paddingVertical: 8,
-  paddingHorizontal: 24,
-  marginHorizontal: 8,
-},
-
-textoBotao: {
-  color: '#4848D8',
-  fontWeight: '600',
-},
-
-botaoAtivo: {
-  backgroundColor: '#4848D8',
-},
-textoBotaoAtivo: {
-  color: '#FFFFFF'
-},
- 
+  botoesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+  botao: {
+    borderWidth: 1,
+    borderColor: '#4848D8',
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    marginHorizontal: 8,
+  },
+  botaoAtivo: {
+    backgroundColor: '#4848D8',
+  },
+  textoBotao: {
+    color: '#4848D8',
+    fontWeight: '600',
+  },
+  textoBotaoAtivo: {
+    color: '#FFFFFF',
+  },
  modalidadeContainer: {
   backgroundColor: '#F0EDFF', // tom lilás claro
   borderRadius: 16,
   padding: 16,
   marginTop: 30,
+  marginBottom: 30
 },
 
 modalidadeTitulo: {
