@@ -51,22 +51,25 @@ export default function TelaInicial() {
   ];
 
   const CursoDataLimiteItem = ({ curso }) => (
-    <TouchableOpacity
-      onPress={() => handleDataLimitePress(curso.id)}
-      style={[styles.cursoDataLimiteItem, selectedDataLimiteId === curso.id && styles.selectedCard]}
-    >
-      <View style={[styles.iconContainer, { backgroundColor: curso.cor }]}> 
-        <Image source={curso.imagem} style={styles.iconImage} resizeMode="contain" />
-      </View>
-      <View style={styles.cursoInfo}>
-        <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
-        <Text style={styles.cursoDataLimite}>{curso.DataLimite}</Text>
-      </View>
-      <TouchableOpacity style={styles.playButton}>
-        <Ionicons name="play-circle-outline" size={24} color="#7C3AED" />
-      </TouchableOpacity>
+  <TouchableOpacity
+    onPress={() => navigation.navigate('TelaDetalhesCurso', { curso })}
+    style={[
+      styles.cursoDataLimiteItem,
+      selectedDataLimiteId === curso.id && styles.selectedCard
+    ]}
+  >
+    <View style={[styles.iconContainer, { backgroundColor: curso.cor }]}>
+      <Image source={curso.imagem} style={styles.iconImage} resizeMode="contain" />
+    </View>
+    <View style={styles.cursoInfo}>
+      <Text style={styles.cursoTitulo}>{curso.titulo}</Text>
+      <Text style={styles.cursoDataLimite}>{curso.DataLimite}</Text>
+    </View>
+    <TouchableOpacity style={styles.playButton}>
+      <Ionicons name="play-circle-outline" size={24} color="#7C3AED" />
     </TouchableOpacity>
-  );
+  </TouchableOpacity>
+);
 
 
   return (
@@ -78,24 +81,23 @@ export default function TelaInicial() {
   showsVerticalScrollIndicator={false}
   contentContainerStyle={{ paddingBottom: tabBarHeight + 40 }}  // 40 é só um espaçamento extra
 >
-        <View style={styles.Botaousuario}>
-        <Image
-          source={require('../assets/foto_perfil.png')}
-          style={styles.usuario}
-          resizeMode="contain"
-        />
-
-        <Text style={styles.titulo}>Olá Fulano!</Text>
-
- <View style={styles.rightIcons}>
-        {/* Sininho com bolinha */}
-           <Image
-               source={require('../assets/logo.png')}
-               style={styles.logo}
-              />
-        
-        </View>
+       <View style={styles.Botaousuario}>
+  <View style={styles.headerLeft}>
+    <Image
+      source={require('../assets/foto_perfil.png')}
+      style={styles.usuario}
+      resizeMode="contain"
+    />
+    <Text style={styles.titulo}>Olá Fulano!</Text>
   </View>
+
+  <Image
+    source={require('../assets/logo.png')}
+    style={styles.logo}
+    resizeMode="contain"
+  />
+</View>
+
         {/* Search Bar */}
         <View style={styles.searchContainer}>
           
@@ -205,33 +207,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF'
   },
-  Botaousuario: {
-     marginTop: 50,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  usuario: {
-    marginRight: 20,
-    marginLeft:-12,
-    width: 47,
-    height: 50
-  },
-   titulo: {
-    fontSize: 16,
-    fontFamily: 'Poppins_600SemiBold',
-    color: '#000',
-    marginRight: 140
-  },
-   rightIcons: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  avatar: {
-    width: 20,
-    height: 20
-  },
+ Botaousuario: {
+  marginTop: 50,
+  paddingHorizontal: 16,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+},
+
+headerLeft: {
+  flexDirection: 'row',
+  alignItems: 'center'
+},
+
+usuario: {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  marginRight: 10,
+},
+
+titulo: {
+  fontSize: 16,
+  fontFamily: 'Poppins_600SemiBold',
+  color: '#000000',
+},
+
+logo: {
+  width: 40,
+  height: 40,
+  resizeMode: 'contain',
+},
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -239,19 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15
   },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#374151',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12
-  },
+ 
   headerTitle: {
     fontFamily: 'Poppins_600SemiBold',
     fontSize: 18,

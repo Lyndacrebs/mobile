@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TelaUsuario() {
     const navigation = useNavigation();
@@ -11,28 +12,22 @@ export default function TelaUsuario() {
     Poppins_600SemiBold
   });
 
-const Voltar = () => {
+const goBack = () => {
   navigation.navigate('StackCursos', { screen: 'TelaInicial' });
 };
-
-
-
   return (
     <ScrollView style={styles.container}>
        <View style={styles.CabecalhoContainer}>
-             <TouchableOpacity onPress={Voltar}>
-               <Image
-               source={require('../assets/seta.png')}
-               style={styles.seta}
-              />
-             </TouchableOpacity>
+             <TouchableOpacity onPress={goBack} style={styles.seta}>
+                    <Ionicons name="arrow-back-outline" size={24} color="#000" />
+                  </TouchableOpacity>
 
       {/* Título */}
       <Text style={styles.titulo}>Perfil</Text>
 
       <View style={styles.rightIcons}>
         {/* Sininho com bolinha */}
-        <TouchableOpacity onPress={Voltar}>
+        <TouchableOpacity onPress={goBack}>
            <Image
                source={require('../assets/notificacao.png')}
                style={styles.notificacao}
@@ -40,7 +35,7 @@ const Voltar = () => {
         </TouchableOpacity>
 
         {/* Engrenagem */}
-        <TouchableOpacity onPress={Voltar}>
+        <TouchableOpacity onPress={goBack}>
           <Image
                source={require('../assets/config.png')}
                style={styles.config}
@@ -132,9 +127,8 @@ const styles = StyleSheet.create({
     marginRight: 184
   },
   seta: {
-    width: 23,
-    height: 14.8,
-    padding: 5
+   marginTop: 15,
+    marginBottom: 20,
   },
   notificacao: {
     width: 18,
