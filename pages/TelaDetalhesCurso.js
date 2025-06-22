@@ -7,6 +7,7 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Image,
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,14 +34,14 @@ export default function TelaDetalhesCurso() {
     const hoje = new Date();
     let status = '';
 
-    if (hoje > dataLimite) {
-      status = 'Pendente';
-    } else {
-      status = 'Em andamento';
-    }
+   if (hoje > dataLimite) {
+  status = 'pendente';
+} else {
+  status = 'andamento';
+}
 
     try {
-      await axios.post('http://SEU_IP:3000/inscrever', {
+      await axios.post('http://192.168.1.17:3000/inscrever', {
         id_curso: cursoId,
         status: status,
         data_inscricao: hoje.toISOString().split('T')[0],
@@ -54,13 +55,16 @@ export default function TelaDetalhesCurso() {
     }
   };
 
-  const ModuloCard = ({ modulo }) => (
+const ModuloCard = ({ modulo }) => (
     <View style={[styles.moduloCard, { backgroundColor: modulo.cor }]}>
-      <Text style={styles.moduloTitulo}>{modulo.titulo}</Text>
-      <View style={styles.moduloDuracao}>
-        <Ionicons name="time-outline" size={16} color="#6B7280" />
-        <Text style={styles.duracaoText}>{modulo.duracao}</Text>
+      <View style={styles.moduloHeader}>
+        <Text style={styles.moduloTitulo}>{modulo.titulo}</Text>
+        <View style={styles.moduloDuracao}>
+          <Ionicons name="time-outline" size={16} color="#6B7280" />
+          <Text style={styles.duracaoText}>{modulo.duracao}</Text>
+        </View>
       </View>
+
       <View style={styles.topicosContainer}>
         {modulo.topicos.map((topico, index) => (
           <View key={index} style={styles.topicoItem}>
@@ -69,6 +73,11 @@ export default function TelaDetalhesCurso() {
           </View>
         ))}
       </View>
+
+      <TouchableOpacity style={styles.comecarButton}>
+        <Ionicons name="play-circle" size={20} color="#8B5CF6" />
+        <Text style={styles.comecarText}>Começar</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -87,9 +96,21 @@ export default function TelaDetalhesCurso() {
 
         {/* Nome do Curso */}
         <Text style={styles.cursoTitulo}>{nomeCurso}</Text>
-        <Text style={styles.cursoDescricao}>
-          Curso voltado para capacitar profissionais da indústria na interpretação de desenhos técnicos aplicados à fabricação de peças e equipamentos.
-        </Text>
+
+         {/* Imagem */}
+         <View style={styles.cursoImageContainer}>
+           <View style={styles.imagePlaceholder}>
+             <Ionicons name="construct-outline" size={60} color="#9CA3AF" />
+           </View>
+         </View>
+
+        {/* Descrição */}
+         <Text style={styles.cursoDescricao}>
+           O curso tem como objetivo capacitar profissionais e estudantes da área industrial para interpretar,
+           elaborar e revisar desenhos técnicos aplicados à fabricação de peças e equipamentos mecânicos.
+           Abordando normas técnicas, tipos de linhas, projeções ortogonais, cotagem, tolerâncias,
+           engenharia, usinagem, manutenção e projetos industriais.
+  </Text>
 
         {/* Botão de Inscrição */}
         <TouchableOpacity style={styles.botaoInscrever} onPress={handleInscricao}>
@@ -125,6 +146,16 @@ const styles = StyleSheet.create({
     color: '#111827',
     marginBottom: 6,
   },
+  cursoImageContainer: {
+    marginBottom: 20,
+  },
+  imagePlaceholder: {
+    height: 200,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   cursoDescricao: {
     fontSize: 14,
     color: '#374151',
@@ -157,6 +188,9 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     backgroundColor: '#F9FAFB',
+  },
+  moduloHeader: {
+  marginBottom: 10,
   },
   moduloTitulo: {
     fontSize: 16,
@@ -195,8 +229,24 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     flex: 1,
   },
+comecarButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+  },
+  comecarText: {
+    fontSize: 14,
+    color: '#8B5CF6',
+    fontWeight: '600',
+    marginLeft: 6,
+  },
 });
-
 
 
 
