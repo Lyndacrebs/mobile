@@ -52,7 +52,7 @@ export default function TelaInicial() {
 
   const CursoDataLimiteItem = ({ curso }) => (
   <TouchableOpacity
-    onPress={() => navigation.navigate('TelaDetalhesCurso', { curso })}
+    onPress={() => navigation.navigate('TelaDetalhesCurso', { id_curso: curso.id })}
     style={[
       styles.cursoDataLimiteItem,
       selectedDataLimiteId === curso.id && styles.selectedCard

@@ -15,6 +15,11 @@ export default function TelaUsuario() {
 const goBack = () => {
   navigation.navigate('StackCursos', { screen: 'TelaInicial' });
 };
+
+const editarPerfil = () => {
+    navigation.navigate('TelaEditarPerfil');
+    // aqui você pode usar navigation.navigate('Tela2') futuramente
+  };
   return (
     <ScrollView style={styles.container}>
        <View style={styles.CabecalhoContainer}>
@@ -53,7 +58,7 @@ const goBack = () => {
         <Text style={styles.nome}>Fulano</Text>
         <Text style={styles.email}>usuario@gmail.com</Text>
 
-        <TouchableOpacity style={styles.Editar}>
+        <TouchableOpacity style={styles.Editar} onPress={editarPerfil}>
           <Text style={styles.EditarTexto}>Editar perfil</Text>
         </TouchableOpacity>
       </View>

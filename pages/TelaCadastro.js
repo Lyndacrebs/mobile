@@ -7,15 +7,16 @@ import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } f
 import AppLoading from 'expo-app-loading';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../context/UserContext';
 
 export default function TelaCadastro() {
-  const [nome_aluno, setNomeAluno] = useState('');
+const { setNomeAluno } = useUser();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  const baseURL = 'http://192.168.1.17:3000';
+  const baseURL = 'http://10.136.23.120:3000';
 
   const navigation = useNavigation();
 
@@ -40,7 +41,7 @@ export default function TelaCadastro() {
       });
 
       Alert.alert('Sucesso', resposta.data.mensagem);
-      setNomeAluno('');
+      setNomeAluno(resposta.data.nome_aluno);
       setEmail('');
       setSenha('');
       setAgreedToTerms(false);
