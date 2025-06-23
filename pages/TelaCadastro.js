@@ -7,19 +7,16 @@ import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } f
 import AppLoading from 'expo-app-loading';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import { useUser } from '../context/UserContext';
 
 export default function TelaCadastro() {
-const { setNomeAluno } = useUser();
+  const [nomeAluno, setNomeAlunoLocal] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const baseURL = 'http://10.136.23.120:3000';
-
   const navigation = useNavigation();
-
 
   const handleCadastro = async () => {
     if (!agreedToTerms) {
@@ -27,60 +24,67 @@ const { setNomeAluno } = useUser();
       return;
     }
 
-    if (!nome_aluno || !email || !senha) {
+    if (!nomeAluno || !email || !senha) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos');
       return;
     }
 
     try {
       const resposta = await axios.post(`${baseURL}/cadastro`, {
-        nome_aluno,
+        nome_aluno: nomeAluno,
         email,
         senha,
         foto_perfil: null
       });
 
       Alert.alert('Sucesso', resposta.data.mensagem);
-      setNomeAluno(resposta.data.nome_aluno);
+
+      // Limpar os campos após o cadastro
+      setNomeAlunoLocal('');
       setEmail('');
       setSenha('');
       setAgreedToTerms(false);
+
+      // Navegar para a próxima tela
+      navigation.navigate('RotaInterna');
     } catch (erro) {
+      console.error(erro);
       Alert.alert('Erro', erro.response?.data?.erro || 'Erro ao cadastrar');
     }
   };
 
   let [fontsLoaded] = useFonts({
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_600SemiBold
-});
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
 
-if (!fontsLoaded) {
-  return <AppLoading />;
-}
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
-  <Image
-    source={require('../assets/logo.png')} // coloque sua logo aqui
-    style={styles.logo}
-    resizeMode="contain"
-  />
-</View>
+        <Image
+          source={require('../assets/logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+
       <View style={styles.card}>
         <Text style={styles.title}>Crie uma Conta</Text>
         <Text style={styles.subtitle}>
-          preencha suas informações abaixo ou{"\n"}registre-se com sua conta social
+          Preencha suas informações abaixo ou{"\n"}registre-se com sua conta social
         </Text>
 
         <Text style={styles.label}>Nome</Text>
         <TextInput
           style={styles.input}
           placeholder=""
-          value={nome_aluno}
-          onChangeText={setNomeAluno}
+          value={nomeAluno}
+          onChangeText={setNomeAlunoLocal}
         />
 
         <Text style={styles.label}>Email</Text>
@@ -117,8 +121,7 @@ if (!fontsLoaded) {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={async () => {await handleCadastro();
-        navigation.navigate('RotaInterna');}}>
+        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
 
@@ -142,9 +145,9 @@ if (!fontsLoaded) {
 
         <Text style={styles.loginText}>
           Já possui uma conta?{' '}
-         <TouchableOpacity onPress={() => navigation.navigate('TelaLogin')}>
-        <Text style={styles.loginLink}>Login</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('TelaLogin')}>
+            <Text style={styles.loginLink}>Login</Text>
+          </TouchableOpacity>
         </Text>
       </View>
     </ScrollView>
@@ -162,38 +165,38 @@ const styles = StyleSheet.create({
     padding: 16
   },
   logoContainer: {
-  alignItems: 'flex-end',
-  marginBottom: 20
-},
-logo: {
-  width: 50,
-  height: 50
-},
- title: {
-  fontSize: 22,
-  fontFamily: 'Poppins_600SemiBold',
-  textAlign: 'center',
-  marginBottom: 4
-},
-subtitle: {
-  textAlign: 'center',
-  color: '#6B7280',
-  fontSize: 16,
-  fontFamily: 'Poppins_300Light', // Fonte leve
-  marginBottom: 24
-},
+    alignItems: 'flex-end',
+    marginBottom: 20
+  },
+  logo: {
+    width: 50,
+    height: 50
+  },
+  title: {
+    fontSize: 22,
+    fontFamily: 'Poppins_600SemiBold',
+    textAlign: 'center',
+    marginBottom: 4
+  },
+  subtitle: {
+    textAlign: 'center',
+    color: '#6B7280',
+    fontSize: 16,
+    fontFamily: 'Poppins_300Light',
+    marginBottom: 24
+  },
   label: {
     color: '#111827',
     fontSize: 16,
     marginBottom: 6
   },
-input: {
-  backgroundColor: '#EEF2FF',
-  borderRadius: 12,
-  padding: 12,
-  marginBottom: 16,
-  fontFamily: 'Poppins_400Regular'
-},
+  input: {
+    backgroundColor: '#EEF2FF',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+    fontFamily: 'Poppins_400Regular'
+  },
   passwordWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -226,11 +229,11 @@ input: {
     alignItems: 'center',
     marginBottom: 24
   },
-buttonText: {
-  color: '#fff',
-  fontFamily: 'Poppins_600SemiBold',
-  fontSize: 16
-},
+  buttonText: {
+    color: '#fff',
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 16
+  },
   divider: {
     flexDirection: 'row',
     alignItems: 'center',

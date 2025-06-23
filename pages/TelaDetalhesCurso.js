@@ -1,7 +1,4 @@
-
-
-
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -17,16 +14,14 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-
-  // Dados simulados do curso e do aluno (você pode depois passar por params ou contexto)
-  export default function TelaDetalhesCurso() {
+export default function TelaDetalhesCurso() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { nomeAluno } = useUser();  // <-- Agora você tem o nome do aluno
 
-  const { id_curso } = route.params;  // <-- Aqui você recebe o id do curso via params
+  // Recebendo id_curso e nomeAluno via params da TelaInicial
+  const { id_curso, nomeAluno, nomeCurso } = route.params;
 
-  const dataLimiteCurso = new Date('2025-12-18');  // Exemplo de data limite do curso
+  const dataLimiteCurso = new Date('2025-12-18');  // Exemplo fixo por enquanto
 
   const modulos = [
     { id: 1, titulo: 'Introdução ao Desenho Técnico', duracao: '22 horas', topicos: ['Conceitos básicos', 'Instrumentos de aplicação'], cor: '#E8F4FD' },
@@ -35,17 +30,17 @@ import { useNavigation, useRoute } from '@react-navigation/native';
     { id: 4, titulo: 'Representação de Vistas', duracao: '22 horas', topicos: ['Vista frontal', 'Vista auxiliar'], cor: '#F0FDF4' },
   ];
 
-   const handleInscricao = async () => {
+  const handleInscricao = async () => {
     const hoje = new Date();
     const status = hoje > dataLimiteCurso ? 'pendente' : 'andamento';
 
     try {
-     await axios.post('http://10.136.23.120:3000/inscricao', {
-  id_curso: id_curso,
-  nome_aluno: nomeAluno,
-  status: status
-});
-
+      await axios.post('http://10.136.23.120:3000/inscrever', {
+        id_curso: id_curso,
+        nome_aluno: nomeAluno,
+        status: status,
+        data_inscricao: hoje.toISOString().split('T')[0]
+      });
 
       Alert.alert('Sucesso', 'Inscrição realizada com sucesso!');
     } catch (error) {
@@ -53,7 +48,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
       Alert.alert('Erro', 'Não foi possível fazer a inscrição.');
     }
   };
-
 
   const ModuloCard = ({ modulo }) => (
     <View style={[styles.moduloCard, { backgroundColor: modulo.cor }]}>
@@ -131,22 +125,23 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: {
     flexDirection: 'row',
+    alignItems: 'center',
     paddingTop: 20,
     marginBottom: 20,
     marginTop: 30
   },
-  content: { flex: 1, paddingHorizontal: 20, paddingTop: 10 },
   backButton: { padding: 5 },
+  content: { flex: 1, paddingHorizontal: 20, paddingTop: 10 },
   cursoTitulo: {
     fontSize: 22,
     fontWeight: '700',
     color: '#111827',
-    marginBottom: 6,
+    marginLeft: 10
   },
   cursoImageContainer: { marginBottom: 20 },
   imagePlaceholder: {
     height: 203,
-    width: 354.69,
+    width: '100%',
     backgroundColor: '#F3F4F6',
     borderRadius: 12,
     justifyContent: 'center',
