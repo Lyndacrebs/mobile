@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,16 +12,16 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TelaDetalhesCurso() {
   const navigation = useNavigation();
-  const route = useRoute();
 
-  // Recebendo id_curso e nomeAluno via params da TelaInicial
-  const { id_curso, nomeAluno, nomeCurso } = route.params;
-
-  const dataLimiteCurso = new Date('2025-12-18');  // Exemplo fixo por enquanto
+  // Dados simulados do curso e do aluno (você pode depois passar por params ou contexto)
+  const id_curso = 1;
+  const nomeCurso = 'Desenho Técnico Mecânico';
+  const nome_aluno = 'Fulano';  // Troque pelo nome real do aluno
+  const dataLimiteCurso = new Date('2025-12-18');
 
   const modulos = [
     { id: 1, titulo: 'Introdução ao Desenho Técnico', duracao: '22 horas', topicos: ['Conceitos básicos', 'Instrumentos de aplicação'], cor: '#E8F4FD' },
@@ -32,14 +32,19 @@ export default function TelaDetalhesCurso() {
 
   const handleInscricao = async () => {
     const hoje = new Date();
-    const status = hoje > dataLimiteCurso ? 'pendente' : 'andamento';
+    let status = '';
+
+    if (hoje > dataLimiteCurso) {
+      status = 'Pendente';
+    } else {
+      status = 'andamento';
+    }
 
     try {
-      await axios.post('http://10.136.23.120:3000/inscrever', {
+      await axios.post('http://10.136.23.120:3000/inscricao', {
         id_curso: id_curso,
-        nome_aluno: nomeAluno,
-        status: status,
-        data_inscricao: hoje.toISOString().split('T')[0]
+        nome_aluno: nome_aluno,
+        status: status
       });
 
       Alert.alert('Sucesso', 'Inscrição realizada com sucesso!');
@@ -125,23 +130,22 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: {
     flexDirection: 'row',
-    alignItems: 'center',
     paddingTop: 20,
     marginBottom: 20,
     marginTop: 30
   },
-  backButton: { padding: 5 },
   content: { flex: 1, paddingHorizontal: 20, paddingTop: 10 },
+  backButton: { padding: 5 },
   cursoTitulo: {
     fontSize: 22,
     fontWeight: '700',
     color: '#111827',
-    marginLeft: 10
+    marginBottom: 6,
   },
   cursoImageContainer: { marginBottom: 20 },
   imagePlaceholder: {
     height: 203,
-    width: '100%',
+    width: 354.69,
     backgroundColor: '#F3F4F6',
     borderRadius: 12,
     justifyContent: 'center',
