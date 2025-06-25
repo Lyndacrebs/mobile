@@ -16,10 +16,15 @@ const goBack = () => {
   navigation.navigate('StackCursos', { screen: 'TelaInicial' });
 };
 
+const configuracao = () => {
+    navigation.navigate('TelaConfiguracao');
+  };
+
 const editarPerfil = () => {
     navigation.navigate('TelaEditarPerfil');
-    // aqui você pode usar navigation.navigate('Tela2') futuramente
   };
+
+
   return (
     <ScrollView style={styles.container}>
        <View style={styles.CabecalhoContainer}>
@@ -40,7 +45,7 @@ const editarPerfil = () => {
         </TouchableOpacity>
 
         {/* Engrenagem */}
-        <TouchableOpacity onPress={goBack}>
+        <TouchableOpacity onPress={configuracao}>
           <Image
                source={require('../assets/config.png')}
                style={styles.config}
@@ -126,9 +131,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
    titulo: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Poppins_600SemiBold',
-    color: '#000',
+    color: '#333',
     marginRight: 184
   },
   seta: {
