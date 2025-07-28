@@ -27,7 +27,7 @@ export default function BemVindo1() {
   };
 
   const skipWelcome = () => {
-    navigation.navigate('RotaInterna');
+    navigation.navigate('TelaCadastro');
     // aqui você pode usar navigation.navigate('Login')
   };
 

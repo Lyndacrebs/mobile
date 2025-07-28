@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   botoesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 16,
+    
     marginBottom: 20,
   },
   botao: {

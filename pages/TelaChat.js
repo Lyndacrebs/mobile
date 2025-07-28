@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function TelaChat() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Bem-vindo à Tela de Chat!</Text>
+      <Text style={styles.text}>Página em manutenção 👨‍🔧</Text>
     </View>
   );
 }

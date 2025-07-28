@@ -7,7 +7,9 @@ import { useFonts, Poppins_300Light, Poppins_400Regular, Poppins_600SemiBold } f
 import AppLoading from 'expo-app-loading';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import { useUser } from '../context/UserContext';
+import { useContext } from 'react';
+import { UserContext } from '../UserContext'; // ajuste o caminho conforme necessário
+
 
 export default function TelaCadastro() {
   const [nome_aluno, setNomeAluno] = useState('');
@@ -15,7 +17,7 @@ export default function TelaCadastro() {
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const { setUserName, setUserEmail } = useUser();
+ const { setUserName, setUserEmail } = useContext(UserContext);
 
   const baseURL = 'http://10.136.23.120:3000';
 
@@ -44,8 +46,8 @@ export default function TelaCadastro() {
   Alert.alert('Sucesso', resposta.data.mensagem);
 
   // Salvar os dados no contexto
-  setUserName(resposta.data.usuario.nome_aluno);
-  setUserEmail(resposta.data.usuario.email);
+setUserName(resposta.data.usuario.nome_aluno);
+setUserEmail(resposta.data.usuario.email);
 
   // Limpar campos
   setNomeAluno('');

@@ -14,7 +14,8 @@ import TelaDetalhesCurso from './pages/TelaDetalhesCurso';
 import TelaConfiguracao from './pages/TelaConfiguracao';
 import TelaUsuario from './pages/TelaUsuario';
 import TelaEditarPerfil from './pages/TelaEditarPerfil';
-
+import StackCursos from './pages/StackCursos';
+import TelaInicial from './pages/TelaInicial';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,8 @@ export default function Routes() {
           <Stack.Screen name="TelaConfiguracao" component={TelaConfiguracao} options={{ headerShown: false }} />
           <Stack.Screen name="TelaUsuario" component={TelaUsuario} options={{ headerShown: false }} />
           <Stack.Screen name="TelaEditarPerfil" component={TelaEditarPerfil} options={{ headerShown: false }} />
+          <Stack.Screen name="StackCursos" component={StackCursos} options={{ headerShown: false }} />
+          <Stack.Screen name="TelaInicial" component={TelaInicial} options={{ headerShown: false }} />
 
     </Stack.Navigator>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -12,16 +12,18 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { UserContext } from '../UserContext'; // ajuste o caminho se necessário
 
 export default function TelaDetalhesCurso() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { id_curso, dataLimiteCurso } = route.params;
+  const { userName } = useContext(UserContext);
 
-  // Dados simulados do curso e do aluno (você pode depois passar por params ou contexto)
-  const id_curso = 1;
+  const dataLimite = new Date(dataLimiteCurso);
+
   const nomeCurso = 'Desenho Técnico Mecânico';
-  const nome_aluno = 'Fulano';  // Troque pelo nome real do aluno
-  const dataLimiteCurso = new Date('2025-12-18');
 
   const modulos = [
     { id: 1, titulo: 'Introdução ao Desenho Técnico', duracao: '22 horas', topicos: ['Conceitos básicos', 'Instrumentos de aplicação'], cor: '#E8F4FD' },
@@ -32,24 +34,22 @@ export default function TelaDetalhesCurso() {
 
   const handleInscricao = async () => {
     const hoje = new Date();
-    let status = '';
+    const status = hoje > dataLimite ? 'Pendente' : 'andamento';
 
-    if (hoje > dataLimiteCurso) {
-      status = 'Pendente';
-    } else {
-      status = 'andamento';
+    if (!userName || !id_curso || !status) {
+      console.error('Campos faltando:', { userName, id_curso, status });
+      return;
     }
 
     try {
       await axios.post('http://10.136.23.120:3000/inscricao', {
-        id_curso: id_curso,
-        nome_aluno: nome_aluno,
-        status: status
+        id_curso,
+        nome_aluno: userName,
+        status
       });
-
       Alert.alert('Sucesso', 'Inscrição realizada com sucesso!');
     } catch (error) {
-      console.error(error);
+      console.error('Erro na inscrição:', error.response?.data || error.message);
       Alert.alert('Erro', 'Não foi possível fazer a inscrição.');
     }
   };
@@ -84,7 +84,6 @@ export default function TelaDetalhesCurso() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Botão Voltar */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color="#7C3AED" />
@@ -92,14 +91,12 @@ export default function TelaDetalhesCurso() {
           <Text style={styles.cursoTitulo}>{nomeCurso}</Text>
         </View>
 
-        {/* Imagem */}
         <View style={styles.cursoImageContainer}>
           <View style={styles.imagePlaceholder}>
             <Image source={require('../assets/imagemCurso1.png')} />
           </View>
         </View>
 
-        {/* Descrição */}
         <Text style={styles.cursoDescricao}>
           O curso tem como objetivo capacitar profissionais e estudantes da área industrial para interpretar,
           elaborar e revisar desenhos técnicos aplicados à fabricação de peças e equipamentos mecânicos.
@@ -107,13 +104,11 @@ export default function TelaDetalhesCurso() {
           engenharia, usinagem, manutenção e projetos industriais.
         </Text>
 
-        {/* Botão de Inscrição */}
         <TouchableOpacity style={styles.botaoInscrever} onPress={handleInscricao}>
           <Ionicons name="checkmark-circle-outline" size={20} color="#FFFFFF" />
           <Text style={styles.textoBotaoInscrever}>Inscrever-se no Curso</Text>
         </TouchableOpacity>
 
-        {/* Módulos */}
         <View style={styles.modulosGrid}>
           {modulos.map((modulo) => (
             <ModuloCard key={modulo.id} modulo={modulo} />
@@ -141,6 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#111827',
     marginBottom: 6,
+    marginLeft: 18
   },
   cursoImageContainer: { marginBottom: 20 },
   imagePlaceholder: {
@@ -240,3 +236,4 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
 });
+

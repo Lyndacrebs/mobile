@@ -52,7 +52,7 @@ export default function TelaInicial() {
 
   const CursoDataLimiteItem = ({ curso }) => (
   <TouchableOpacity
-    onPress={() => navigation.navigate('TelaDetalhesCurso', { id_curso: curso.id })}
+    onPress={() => navigation.navigate('TelaDetalhesCurso', { id_curso: curso.id,   nome_curso: curso.titulo, })}
     style={[
       styles.cursoDataLimiteItem,
       selectedDataLimiteId === curso.id && styles.selectedCard
@@ -71,6 +71,24 @@ export default function TelaInicial() {
   </TouchableOpacity>
 );
 
+
+const CursoAndamentoItem = ({ curso }) => (
+  <TouchableOpacity
+    onPress={() => navigation.navigate('TelaDetalhesCurso', { id_curso: curso.id,   nome_curso: curso.titulo, })}
+    style={styles.cursoAndamentoItem}
+  >
+    <View style={styles.cursoAndamentoContent}>
+      <Image source={curso.imagem} style={styles.cursoImagem} />
+      <View style={styles.cursoInfo}>
+        <Text style={styles.titulo}>{curso.titulo}</Text>
+        <Text style={styles.subtitulo}>{curso.subtitulo}</Text>
+        <Text style={styles.data}>{curso.data}</Text>
+        <Text style={styles.duracao}>{curso.duracao}</Text>
+        <Text style={styles.tipo}>{curso.tipo}</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -174,7 +192,7 @@ export default function TelaInicial() {
           styles.continuarCursoCard,
           selectedCourseId === curso.id && styles.selectedCard
         ]}
-        onPress={() => handleCardPress(curso.id)}
+        onPress={() => navigation.navigate('TelaDetalhesCurso', { id_curso: curso.id })}
         activeOpacity={0.8}
       >
         <Image source={curso.imagem} style={styles.continuarImagem} />
@@ -442,4 +460,52 @@ modalidadeTexto: {
     borderWidth: 3,
     borderColor: '#4848D8',
   },
+
+  cursoAndamentoItem: {
+  backgroundColor: '#fff',
+  borderRadius: 12,
+  padding: 16,
+  marginVertical: 8,
+  marginHorizontal: 16,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3
+},
+cursoAndamentoContent: {
+  flexDirection: 'row',
+  alignItems: 'center'
+},
+cursoImagem: {
+  width: 60,
+  height: 60,
+  borderRadius: 8,
+  marginRight: 12
+},
+cursoInfo: {
+  flex: 1
+},
+titulo: {
+  fontSize: 16,
+  fontWeight: '600'
+},
+subtitulo: {
+  fontSize: 14,
+  color: '#777'
+},
+data: {
+  fontSize: 12,
+  color: '#555'
+},
+duracao: {
+  fontSize: 12,
+  color: '#333'
+},
+tipo: {
+  fontSize: 12,
+  color: '#7c3aed',
+  fontWeight: '500'
+}
+  
 });
